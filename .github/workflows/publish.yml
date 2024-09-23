@@ -25,7 +25,10 @@ jobs:
       # - run: pip install jupyter
       - run: pip install -r requirements.txt
 
-      - name: Render and Publish
+      - name: Render Specific File
+        run: quarto render notebooks/report.ipynb
+
+      - name: Render and Publish Site
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
