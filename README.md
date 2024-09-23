@@ -1,4 +1,4 @@
-# Clipboard Health Report: Nurse Staffing Recommendations
+# clipboard-report
 
 This repository contains my analysis of the
 Payroll Based Journal (PBJ) Daily Nurse Staffing dataset,
