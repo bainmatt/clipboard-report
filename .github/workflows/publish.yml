@@ -26,13 +26,13 @@ jobs:
       - run: pip install -r requirements.txt
 
       - name: Render Specific File(s)
-        run: quarto render notebooks/
+        run: quarto render notebooks/report.ipynb
 
       - name: Render and Publish Site
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          path: notebooks/
+          path: notebooks/report.ipynb
           render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
