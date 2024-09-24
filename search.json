@@ -10,14 +10,14 @@
     "objectID": "notebooks/report.html#imports",
     "href": "notebooks/report.html#imports",
     "title": "Nurse Staffing Recommendations",
-    "section": "1 Imports",
-    "text": "1 Imports\n\n\nCode\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom src.stylesheet import customize_plots\nfrom src.inspection import make_df, display"
+    "section": "Imports",
+    "text": "Imports\n\n\nCode\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom src.stylesheet import customize_plots\nfrom src.inspection import make_df, display"
   },
   {
     "objectID": "notebooks/report.html#the-dataset",
     "href": "notebooks/report.html#the-dataset",
     "title": "Nurse Staffing Recommendations",
-    "section": "2 The dataset",
-    "text": "2 The dataset\n[…]\n\n\nCode\n# This is a test\ndef test(x):\n    \"\"\"\n    This is a test.\n\n    Parameters\n    -----------\n    x : int\n        An integer.\n\n    Returns\n    -------\n    y : int\n        An integer.\n    \"\"\"\n    y = x + 1\n    return y\n\n\n\n\nCode\ntest(4)\n\n\n5\n\n\n\n\nCode\ncustomize_plots()\nx = np.linspace(1, 10, 19)\nplt.plot(x*2)\n\n\n\n\n\n\n\n\nFigure 1: A figure caption\n\n\n\n\n\n\n\nCode\ndf = make_df([1, 2, 3], [\"A\", \"B\", \"C\"])\ndisplay(\"df\", \"df.transpose()\", globs=globals())\n\n\n\ndf\n--- (3, 3) ---\n    1   2   3\nA  1A  2A  3A\nB  1B  2B  3B\nC  1C  2C  3C\n\n\ndf.transpose()\n--- (3, 3) ---\n    A   B   C\n1  1A  1B  1C\n2  2A  2B  2C\n3  3A  3B  3C"
+    "section": "The dataset",
+    "text": "The dataset\n[…]\n\n\nCode\n# This is a test\ndef test(x):\n    \"\"\"\n    This is a test.\n\n    Parameters\n    -----------\n    x : int\n        An integer.\n\n    Returns\n    -------\n    y : int\n        An integer.\n    \"\"\"\n    y = x + 1\n    return y\n\n\n\n\nCode\ntest(4)\n\n\n5\n\n\n\n\nCode\ncustomize_plots()\nx = np.linspace(1, 10, 19)\nplt.plot(x*2)\n\n\n\n\n\n\n\n\nFigure 1: A figure caption\n\n\n\n\n\n\n\nCode\ndf = make_df([1, 2, 3], [\"A\", \"B\", \"C\"])\ndisplay(\"df\", \"df.transpose()\", globs=globals())\n\n\n\ndf\n--- (3, 3) ---\n    1   2   3\nA  1A  2A  3A\nB  1B  2B  3B\nC  1C  2C  3C\n\n\ndf.transpose()\n--- (3, 3) ---\n    A   B   C\n1  1A  1B  1C\n2  2A  2B  2C\n3  3A  3B  3C"
   }
 ]
