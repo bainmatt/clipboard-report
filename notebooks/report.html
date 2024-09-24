@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -85,6 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <meta property="og:title" content="Nurse Staffing Recommendations – Nurse staffing data analysis">
@@ -157,102 +160,489 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>[…]</p>
 <section id="imports" class="level2">
 <h2 class="anchored" data-anchor-id="imports">Imports</h2>
-<div id="cell-6" class="cell" data-execution_count="2">
+<div id="cell-6" class="cell" data-execution_count="73">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.stylesheet <span class="im">import</span> customize_plots</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.inspection <span class="im">import</span> make_df, display</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.stylesheet <span class="im">import</span> customize_plots</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.inspection <span class="im">import</span> make_df, display</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="the-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="the-dataset">The dataset</h2>
 <p>[…]</p>
-<div id="cell-9" class="cell" data-execution_count="3">
+<div id="cell-13" class="cell" data-execution_count="78">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a test</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test(x):</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">    This is a test.</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    -----------</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">    x : int</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">        An integer.</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">    y : int</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">        An integer.</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="cell-10" class="cell" data-execution_count="4">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>test(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>5</code></pre>
-</div>
-</div>
-<div id="cell-fig-lab" class="cell" data-execution_count="5">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>customize_plots()</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">19</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.plot(x<span class="op">*</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div id="fig-lab" class="quarto-float quarto-figure quarto-figure-left anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-lab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="report_files/figure-html/fig-lab-output-1.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: A figure caption
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-12" class="cell" data-execution_count="6">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> make_df([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>])</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>display(<span class="st">"df"</span>, <span class="st">"df.transpose()"</span>, globs<span class="op">=</span><span class="bu">globals</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'data'</span> <span class="kw">not</span> <span class="kw">in</span> <span class="bu">locals</span>():</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"../data/raw/PBJ_Daily_Nurse_Staffing_Q1_2024.csv"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        encoding<span class="op">=</span><span class="st">'ISO-8859-1'</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"data loaded."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-df
---- (3, 3) ---
-    1   2   3
-A  1A  2A  3A
-B  1B  2B  3B
-C  1C  2C  3C
+<pre><code>data loaded.</code></pre>
+</div>
+</div>
+<div id="cell-14" class="cell" data-execution_count="79">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data.sample(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="79">
+<div>
 
 
-df.transpose()
---- (3, 3) ---
-    A   B   C
-1  1A  1B  1C
-2  2A  2B  2C
-3  3A  3B  3C
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">PROVNUM</th>
+<th data-quarto-table-cell-role="th">PROVNAME</th>
+<th data-quarto-table-cell-role="th">CITY</th>
+<th data-quarto-table-cell-role="th">STATE</th>
+<th data-quarto-table-cell-role="th">COUNTY_NAME</th>
+<th data-quarto-table-cell-role="th">COUNTY_FIPS</th>
+<th data-quarto-table-cell-role="th">CY_Qtr</th>
+<th data-quarto-table-cell-role="th">WorkDate</th>
+<th data-quarto-table-cell-role="th">MDScensus</th>
+<th data-quarto-table-cell-role="th">Hrs_RNDON</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Hrs_LPN_ctr</th>
+<th data-quarto-table-cell-role="th">Hrs_CNA</th>
+<th data-quarto-table-cell-role="th">Hrs_CNA_emp</th>
+<th data-quarto-table-cell-role="th">Hrs_CNA_ctr</th>
+<th data-quarto-table-cell-role="th">Hrs_NAtrn</th>
+<th data-quarto-table-cell-role="th">Hrs_NAtrn_emp</th>
+<th data-quarto-table-cell-role="th">Hrs_NAtrn_ctr</th>
+<th data-quarto-table-cell-role="th">Hrs_MedAide</th>
+<th data-quarto-table-cell-role="th">Hrs_MedAide_emp</th>
+<th data-quarto-table-cell-role="th">Hrs_MedAide_ctr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">426830</td>
+<td>175544</td>
+<td>IGNITE MEDICAL RESORT A PTR OF THE UNIV OF KANSAS</td>
+<td>KANSAS CITY</td>
+<td>KS</td>
+<td>Wyandotte</td>
+<td>209</td>
+<td>2024Q1</td>
+<td>20240210</td>
+<td>93</td>
+<td>0.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>141.72</td>
+<td>141.72</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>10.24</td>
+<td>10.24</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">274200</td>
+<td>145466</td>
+<td>TWIN LAKES REHAB &amp; HEALTH CARE</td>
+<td>PARIS</td>
+<td>IL</td>
+<td>Edgar</td>
+<td>45</td>
+<td>2024Q1</td>
+<td>20240118</td>
+<td>31</td>
+<td>8.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>74.55</td>
+<td>74.55</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1128781</td>
+<td>495315</td>
+<td>CONSULATE HEALTH CARE OF WOODSTOCK</td>
+<td>WOODSTOCK</td>
+<td>VA</td>
+<td>Shenandoah</td>
+<td>171</td>
+<td>2024Q1</td>
+<td>20240118</td>
+<td>79</td>
+<td>8.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>138.25</td>
+<td>138.25</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">666589</td>
+<td>265862</td>
+<td>DELTA SOUTH NURSING &amp; REHABILITATION</td>
+<td>SIKESTON</td>
+<td>MO</td>
+<td>New Madrid</td>
+<td>143</td>
+<td>2024Q1</td>
+<td>20240115</td>
+<td>48</td>
+<td>12.5</td>
+<td>...</td>
+<td>0.0</td>
+<td>119.25</td>
+<td>119.25</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>6.00</td>
+<td>6.00</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">108748</td>
+<td>056475</td>
+<td>VISTA POST ACUTE</td>
+<td>HAYWARD</td>
+<td>CA</td>
+<td>Alameda</td>
+<td>1</td>
+<td>2024Q1</td>
+<td>20240104</td>
+<td>64</td>
+<td>8.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>173.92</td>
+<td>173.92</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
 
-</code></pre>
+<p>5 rows × 33 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-15" class="cell" data-execution_count="80">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 1330966 entries, 0 to 1330965
+Data columns (total 33 columns):
+ #   Column            Non-Null Count    Dtype  
+---  ------            --------------    -----  
+ 0   PROVNUM           1330966 non-null  object 
+ 1   PROVNAME          1330966 non-null  object 
+ 2   CITY              1330966 non-null  object 
+ 3   STATE             1330966 non-null  object 
+ 4   COUNTY_NAME       1330966 non-null  object 
+ 5   COUNTY_FIPS       1330966 non-null  int64  
+ 6   CY_Qtr            1330966 non-null  object 
+ 7   WorkDate          1330966 non-null  int64  
+ 8   MDScensus         1330966 non-null  int64  
+ 9   Hrs_RNDON         1330966 non-null  float64
+ 10  Hrs_RNDON_emp     1330966 non-null  float64
+ 11  Hrs_RNDON_ctr     1330966 non-null  float64
+ 12  Hrs_RNadmin       1330966 non-null  float64
+ 13  Hrs_RNadmin_emp   1330966 non-null  float64
+ 14  Hrs_RNadmin_ctr   1330966 non-null  float64
+ 15  Hrs_RN            1330966 non-null  float64
+ 16  Hrs_RN_emp        1330966 non-null  float64
+ 17  Hrs_RN_ctr        1330966 non-null  float64
+ 18  Hrs_LPNadmin      1330966 non-null  float64
+ 19  Hrs_LPNadmin_emp  1330966 non-null  float64
+ 20  Hrs_LPNadmin_ctr  1330966 non-null  float64
+ 21  Hrs_LPN           1330966 non-null  float64
+ 22  Hrs_LPN_emp       1330966 non-null  float64
+ 23  Hrs_LPN_ctr       1330966 non-null  float64
+ 24  Hrs_CNA           1330966 non-null  float64
+ 25  Hrs_CNA_emp       1330966 non-null  float64
+ 26  Hrs_CNA_ctr       1330966 non-null  float64
+ 27  Hrs_NAtrn         1330966 non-null  float64
+ 28  Hrs_NAtrn_emp     1330966 non-null  float64
+ 29  Hrs_NAtrn_ctr     1330966 non-null  float64
+ 30  Hrs_MedAide       1330966 non-null  float64
+ 31  Hrs_MedAide_emp   1330966 non-null  float64
+ 32  Hrs_MedAide_ctr   1330966 non-null  float64
+dtypes: float64(24), int64(3), object(6)
+memory usage: 335.1+ MB</code></pre>
+</div>
+</div>
+<div id="cell-16" class="cell" data-execution_count="81">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="81">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">COUNTY_FIPS</th>
+<th data-quarto-table-cell-role="th">WorkDate</th>
+<th data-quarto-table-cell-role="th">MDScensus</th>
+<th data-quarto-table-cell-role="th">Hrs_RNDON</th>
+<th data-quarto-table-cell-role="th">Hrs_RNDON_emp</th>
+<th data-quarto-table-cell-role="th">Hrs_RNDON_ctr</th>
+<th data-quarto-table-cell-role="th">Hrs_RNadmin</th>
+<th data-quarto-table-cell-role="th">Hrs_RNadmin_emp</th>
+<th data-quarto-table-cell-role="th">Hrs_RNadmin_ctr</th>
+<th data-quarto-table-cell-role="th">Hrs_RN</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Hrs_LPN_ctr</th>
+<th data-quarto-table-cell-role="th">Hrs_CNA</th>
+<th data-quarto-table-cell-role="th">Hrs_CNA_emp</th>
+<th data-quarto-table-cell-role="th">Hrs_CNA_ctr</th>
+<th data-quarto-table-cell-role="th">Hrs_NAtrn</th>
+<th data-quarto-table-cell-role="th">Hrs_NAtrn_emp</th>
+<th data-quarto-table-cell-role="th">Hrs_NAtrn_ctr</th>
+<th data-quarto-table-cell-role="th">Hrs_MedAide</th>
+<th data-quarto-table-cell-role="th">Hrs_MedAide_emp</th>
+<th data-quarto-table-cell-role="th">Hrs_MedAide_ctr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>...</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+<td>1.330966e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>9.110645e+01</td>
+<td>2.024022e+07</td>
+<td>8.342205e+01</td>
+<td>5.202604e+00</td>
+<td>5.108919e+00</td>
+<td>9.368552e-02</td>
+<td>1.025690e+01</td>
+<td>1.001330e+01</td>
+<td>2.436051e-01</td>
+<td>3.442358e+01</td>
+<td>...</td>
+<td>6.471522e+00</td>
+<td>1.711519e+02</td>
+<td>1.581772e+02</td>
+<td>1.297474e+01</td>
+<td>4.245751e+00</td>
+<td>4.183379e+00</td>
+<td>6.237254e-02</td>
+<td>8.479371e+00</td>
+<td>8.256561e+00</td>
+<td>2.228107e-01</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">std</td>
+<td>9.920207e+01</td>
+<td>8.300736e+01</td>
+<td>4.913768e+01</td>
+<td>4.548220e+00</td>
+<td>4.539970e+00</td>
+<td>9.085525e-01</td>
+<td>1.485095e+01</td>
+<td>1.460832e+01</td>
+<td>1.848301e+00</td>
+<td>3.468461e+01</td>
+<td>...</td>
+<td>1.616055e+01</td>
+<td>1.137098e+02</td>
+<td>1.062863e+02</td>
+<td>3.255127e+01</td>
+<td>1.310614e+01</td>
+<td>1.274111e+01</td>
+<td>2.106869e+00</td>
+<td>1.760569e+01</td>
+<td>1.720677e+01</td>
+<td>2.190094e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>1.000000e+00</td>
+<td>2.024010e+07</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>...</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>3.100000e+01</td>
+<td>2.024012e+07</td>
+<td>5.100000e+01</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>1.300000e+01</td>
+<td>...</td>
+<td>0.000000e+00</td>
+<td>9.697000e+01</td>
+<td>8.800000e+01</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>6.900000e+01</td>
+<td>2.024022e+07</td>
+<td>7.600000e+01</td>
+<td>8.000000e+00</td>
+<td>8.000000e+00</td>
+<td>0.000000e+00</td>
+<td>7.500000e+00</td>
+<td>7.350000e+00</td>
+<td>0.000000e+00</td>
+<td>2.558000e+01</td>
+<td>...</td>
+<td>0.000000e+00</td>
+<td>1.481000e+02</td>
+<td>1.367500e+02</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>1.170000e+02</td>
+<td>2.024031e+07</td>
+<td>1.040000e+02</td>
+<td>8.000000e+00</td>
+<td>8.000000e+00</td>
+<td>0.000000e+00</td>
+<td>1.600000e+01</td>
+<td>1.600000e+01</td>
+<td>0.000000e+00</td>
+<td>4.479000e+01</td>
+<td>...</td>
+<td>5.800000e+00</td>
+<td>2.169500e+02</td>
+<td>2.030600e+02</td>
+<td>1.100000e+01</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>0.000000e+00</td>
+<td>1.125000e+01</td>
+<td>1.075000e+01</td>
+<td>0.000000e+00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>8.400000e+02</td>
+<td>2.024033e+07</td>
+<td>7.430000e+02</td>
+<td>3.277500e+02</td>
+<td>3.277500e+02</td>
+<td>4.200000e+01</td>
+<td>2.661500e+02</td>
+<td>2.661500e+02</td>
+<td>9.250000e+01</td>
+<td>9.086200e+02</td>
+<td>...</td>
+<td>4.540000e+02</td>
+<td>1.857740e+03</td>
+<td>1.573080e+03</td>
+<td>6.943000e+02</td>
+<td>4.520000e+02</td>
+<td>2.790200e+02</td>
+<td>2.805000e+02</td>
+<td>3.956500e+02</td>
+<td>3.956500e+02</td>
+<td>1.289000e+02</td>
+</tr>
+</tbody>
+</table>
+
+<p>8 rows × 27 columns</p>
+</div>
 </div>
 </div>
 </section>
 <section id="sql" class="level2">
 <h2 class="anchored" data-anchor-id="sql">SQL</h2>
-<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;sql&quot;}">
+<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;sql&quot;}">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>CREATE TABLE employees (</span>
@@ -262,7 +652,7 @@ df.transpose()
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;sql&quot;}">
+<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;sql&quot;}">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>INSERT INTO employees (<span class="bu">id</span>, name, position)</span>
@@ -271,7 +661,7 @@ df.transpose()
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>       (<span class="dv">3</span>, <span class="st">'Charlie Brown'</span>, <span class="st">'Project Manager'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;sql&quot;}">
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;sql&quot;}">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>SELECT name</span>
