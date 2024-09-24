@@ -62,8 +62,6 @@ coverage.xml
 # mypy
 .mypy_cache/
 
-/.quarto/
-
 # --- Docs ---
 
 # Quarto

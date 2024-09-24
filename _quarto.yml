@@ -1,2 +1,34 @@
 project:
   type: website
+
+# -- Optional additions ------------------------------------------------------
+
+website:
+  title: "Nurse staffing data analysis"
+  description: "A report"
+  site-url: https://bainmatt.github.io/clipboard-report/
+  repo-url: https://github.com/bainmatt/clipboard-report
+  open-graph: true
+  search: false
+  navbar:
+    title: false
+    # background: "#eee"
+    # left:
+    #   - href: index.qmd
+    #     text: Home
+    #   - href: index.xml
+    #     text: RSS
+    right:
+      - text: Sites
+        menu:
+        - href: https://bainmatt.github.io/
+          text: Homepage
+  page-footer:
+    center:
+      - href: https://bainmatt.github.io/
+        text: bainmatt.github.io
+
+format:
+  html:
+    theme: ember.scss
+    css: styles.css
