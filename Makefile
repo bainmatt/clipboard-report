@@ -169,6 +169,8 @@ clean:
 	rm -rf .pytest_cache
 	rm -rf .mypy_cache
 	rm -rf htmlcov
+	# rm -rf .quarto
+	# rm -rf _site
 	find . -name '__pycache__' -type d -exec rm -rf {} +
 	find . -name '*.pyc' -delete
 	find . -name '*.pyo' -delete
