@@ -19,5 +19,12 @@
     "title": "Nurse Staffing Recommendations",
     "section": "The dataset",
     "text": "The dataset\n[…]\n\n\nCode\n# This is a test\ndef test(x):\n    \"\"\"\n    This is a test.\n\n    Parameters\n    -----------\n    x : int\n        An integer.\n\n    Returns\n    -------\n    y : int\n        An integer.\n    \"\"\"\n    y = x + 1\n    return y\n\n\n\n\nCode\ntest(4)\n\n\n5\n\n\n\n\nCode\ncustomize_plots()\nx = np.linspace(1, 10, 19)\nplt.plot(x*2)\n\n\n\n\n\n\n\n\nFigure 1: A figure caption\n\n\n\n\n\n\n\nCode\ndf = make_df([1, 2, 3], [\"A\", \"B\", \"C\"])\ndisplay(\"df\", \"df.transpose()\", globs=globals())\n\n\n\ndf\n--- (3, 3) ---\n    1   2   3\nA  1A  2A  3A\nB  1B  2B  3B\nC  1C  2C  3C\n\n\ndf.transpose()\n--- (3, 3) ---\n    A   B   C\n1  1A  1B  1C\n2  2A  2B  2C\n3  3A  3B  3C"
+  },
+  {
+    "objectID": "notebooks/report.html#sql",
+    "href": "notebooks/report.html#sql",
+    "title": "Nurse Staffing Recommendations",
+    "section": "SQL",
+    "text": "SQL\n\n\nCode\nCREATE TABLE employees (\n    id INT PRIMARY KEY,\n    name VARCHAR(50),\n    position VARCHAR(50)\n);\n\n\n\n\nCode\nINSERT INTO employees (id, name, position)\nVALUES (1, 'Alice Johnson', 'Software Engineer'),\n       (2, 'Bob Smith', 'Data Analyst'),\n       (3, 'Charlie Brown', 'Project Manager');\n\n\n\n\nCode\nSELECT name\nFROM employees"
   }
 ]
