@@ -3,6 +3,9 @@ project:
 
 # -- Optional additions ------------------------------------------------------
 
+# execute:
+#   freeze: auto
+
 website:
   title: "Nurse staffing data analysis"
   description: "A report"
@@ -10,19 +13,24 @@ website:
   repo-url: https://github.com/bainmatt/clipboard-report
   open-graph: true
   search: false
-  navbar:
-    title: false
-    # background: "#eee"
-    # left:
-    #   - href: index.qmd
-    #     text: Home
-    #   - href: index.xml
-    #     text: RSS
-    right:
-      - text: Sites
-        menu:
-        - href: https://bainmatt.github.io/
-          text: Homepage
+  # navbar:
+  #   title: false
+  #   background: "#eee"
+  #   left:
+  #     - href: notebooks/report.ipynb
+  #       text: "Report"
+  #     - href: index.qmd
+  #       text: Home
+  #     - href: index.xml
+  #       text: RSS
+  #   right:
+  #     - icon: github
+  #       href: https://github.com/bainmatt/clipboard-report
+  #       aria-label: GitHub
+  #     - text: Sites
+  #       menu:
+  #       - href: https://bainmatt.github.io/
+  #         text: Homepage
   page-footer:
     center:
       - href: https://bainmatt.github.io/
@@ -30,5 +38,8 @@ website:
 
 format:
   html:
-    theme: ember.scss
-    css: styles.css
+    theme: ember
+    # css: styles.css
+    # theme:
+    #   light: flatly
+    #   dark: darkly
