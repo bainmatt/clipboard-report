@@ -2,7 +2,7 @@
 Plotting customization.
 """
 
-import numpy as np
+# import numpy as np
 import matplotlib as mpl
 from cycler import cycler
 # import matplotlib.pyplot as plt
@@ -129,15 +129,15 @@ def customize_plots() -> None:
     # mpl.rcParams['ytick.major.pad'] = 3.5
 
     # Discrete color cycle (and continuous map)
-    # mpl.rcParams['axes.prop_cycle'] = cycler(
-    #     color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
-    # )
+    mpl.rcParams['axes.prop_cycle'] = cycler(
+        color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
+    )
     # mpl.rcParams['axes.prop_cycle'] = cycler(
     #     color=sns.color_palette("PiYG", n_colors=6)
     # )
-    mpl.rcParams['axes.prop_cycle'] = cycler(
-        color=mpl.cm.PiYG(np.linspace(0.15, .85, 6))  # type: ignore
-    )
+    # mpl.rcParams['axes.prop_cycle'] = cycler(
+    #     color=mpl.cm.PiYG(np.linspace(0.15, .85, 6))  # type: ignore
+    # )
 
     # Legend properties
     mpl.rcParams['legend.loc'] = 'best'

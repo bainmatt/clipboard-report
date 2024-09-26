@@ -1,3 +1,15 @@
+# --- Misc ---
+
+# Raw data
+data/raw/
+
+# SQLite database files
+notebooks/*.db
+notebooks/*.db-journal
+
+# Exploratory notebooks
+# notebooks/technical-snippets.ipynb
+
 # --- System config/cache ---
 
 # IDE

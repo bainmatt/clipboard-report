@@ -15,6 +15,9 @@ dependencies:
   - numpy
   - pandas
   - matplotlib
+  - geopandas
+  - geopy
+  # - mysql
   # - seaborn
   # - pydantic
   # - requests
@@ -28,6 +31,17 @@ dependencies:
   # - python-dotenv
 
   - pip:
+    # Tables
+    - great-tables
+    - polars
+    # - pyarrow
+    # - tabulate
+
+    # SQL
+    # - mysql
+    # - mysqlclient
+    # - mysql-connector-python
+    # - PyMySQL
     # - jsonschema
 
     # Typing / testing / linting
