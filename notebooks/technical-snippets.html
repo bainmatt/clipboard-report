@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#some-gt-examples" id="toc-some-gt-examples" class="nav-link" data-scroll-target="#some-gt-examples">Some GT examples</a></li>
   <li><a href="#sql" id="toc-sql" class="nav-link" data-scroll-target="#sql">SQL</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="report.out.ipynb" download="report.out.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="report.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div><div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://data.cms.gov/quality-of-care/payroll-based-journal-daily-nurse-staffing/data"><i class="bi bi-link-45deg"></i>CMS Nurse Staffing Dataset</a></li></ul></div><div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/bainmatt/clipboard-report/tree/main/src"><i class="bi bi-file-code"></i>Python scripts (src)</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="technical-snippets.out.ipynb" download="technical-snippets.out.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="technical-snippets.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div><div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://data.cms.gov/quality-of-care/payroll-based-journal-daily-nurse-staffing/data"><i class="bi bi-link-45deg"></i>CMS Nurse Staffing Dataset</a></li></ul></div><div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/bainmatt/clipboard-report/tree/main/src"><i class="bi bi-file-code"></i>Python scripts (src)</a></li></ul></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -131,7 +131,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Nurse Staffing Recommendations</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i></button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button" data-quarto-source-url="https://github.com/bainmatt/clipboard-report/blob/main/notebooks/report.ipynb">View Source</a></li></ul></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Nurse Staffing Recommendations</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i></button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button" data-quarto-source-url="https://github.com/bainmatt/clipboard-report/blob/main/notebooks/technical-snippets.ipynb">View Source</a></li></ul></div></div>
 <p class="subtitle lead"></p><p>Analysis of the Center for Medicare &amp; Medicaid Services Nurse Staffing Dataset</p><p></p>
 </div>
 
@@ -170,7 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>[…]</p>
 <section id="imports" class="level2">
 <h2 class="anchored" data-anchor-id="imports">Imports</h2>
-<div id="cell-6" class="cell" data-execution_count="49">
+<div id="cell-6" class="cell" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-dataset" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="the-dataset">The dataset</h2>
 <p>We begin by exploring the data to get to know the features and patterns on which we will base our analysis.</p>
-<div id="cell-14" class="cell" data-execution_count="55">
+<div id="cell-14" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'data'</span> <span class="kw">not</span> <span class="kw">in</span> <span class="bu">locals</span>():</span>
@@ -200,12 +200,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"data loaded."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-15" class="cell" data-execution_count="56">
+<div id="cell-15" class="cell" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data.sample(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="56">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -237,123 +237,123 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </thead>
   <tbody>
     <tr>
-      <th>134826</th>
-      <td>075198</td>
-      <td>VILLAGE GREEN OF BRISTOL REHAB &amp; HEALTH CENTER</td>
-      <td>FORESTVILLE</td>
-      <td>CT</td>
-      <td>Hartford</td>
-      <td>3</td>
+      <th>233053</th>
+      <td>115513</td>
+      <td>TWIN OAKS CONVALESCENT CENTER</td>
+      <td>ALMA</td>
+      <td>GA</td>
+      <td>Bacon</td>
+      <td>5</td>
       <td>2024Q1</td>
-      <td>20240225</td>
-      <td>84</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>0.00</td>
-      <td>129.16</td>
-      <td>129.16</td>
-      <td>0.00</td>
-      <td>11.63</td>
-      <td>11.63</td>
-      <td>0.0</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>314429</th>
-      <td>146128</td>
-      <td>PLYMOUTH PLACE</td>
-      <td>LA GRANGE PARK</td>
-      <td>IL</td>
-      <td>Cook</td>
-      <td>31</td>
-      <td>2024Q1</td>
-      <td>20240125</td>
+      <td>20240103</td>
       <td>72</td>
       <td>8.0</td>
       <td>...</td>
-      <td>0.00</td>
-      <td>183.59</td>
-      <td>183.59</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>36.20</td>
+      <td>146.40</td>
+      <td>146.40</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>0.0</td>
       <td>0.00</td>
       <td>0.00</td>
       <td>0.0</td>
     </tr>
     <tr>
-      <th>649459</th>
-      <td>265607</td>
-      <td>CRYSTAL CREEK HEALTH AND REHABILITATION CENTER</td>
-      <td>FLORISSANT</td>
-      <td>MO</td>
-      <td>St. Louis</td>
-      <td>189</td>
+      <th>1109690</th>
+      <td>46A058</td>
+      <td>MAPLE RIDGE REHABILITATION AND NURSING</td>
+      <td>SALT LAKE CITY</td>
+      <td>UT</td>
+      <td>Salt Lake</td>
+      <td>35</td>
       <td>2024Q1</td>
-      <td>20240324</td>
-      <td>109</td>
+      <td>20240206</td>
+      <td>34</td>
       <td>0.0</td>
       <td>...</td>
       <td>0.00</td>
-      <td>149.00</td>
-      <td>149.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>47.16</td>
+      <td>47.16</td>
       <td>0.0</td>
-      <td>50.25</td>
-      <td>50.25</td>
       <td>0.0</td>
-    </tr>
-    <tr>
-      <th>992920</th>
-      <td>395640</td>
-      <td>JOHN J KANE REGIONAL CENTER-MC</td>
-      <td>MCKEESPORT</td>
-      <td>PA</td>
-      <td>Allegheny</td>
-      <td>3</td>
-      <td>2024Q1</td>
-      <td>20240120</td>
-      <td>198</td>
       <td>0.0</td>
-      <td>...</td>
-      <td>100.25</td>
-      <td>450.75</td>
-      <td>224.50</td>
-      <td>226.25</td>
-      <td>0.00</td>
-      <td>0.00</td>
       <td>0.0</td>
       <td>0.00</td>
       <td>0.00</td>
       <td>0.0</td>
     </tr>
     <tr>
-      <th>661170</th>
-      <td>265793</td>
-      <td>LA PLATA NURSING HOME</td>
-      <td>LA PLATA</td>
-      <td>MO</td>
-      <td>Macon</td>
-      <td>121</td>
+      <th>1071036</th>
+      <td>445426</td>
+      <td>AHC BRIGHT GLADE</td>
+      <td>MEMPHIS</td>
+      <td>TN</td>
+      <td>Shelby</td>
+      <td>157</td>
       <td>2024Q1</td>
-      <td>20240225</td>
-      <td>38</td>
+      <td>20240227</td>
+      <td>68</td>
+      <td>8.0</td>
+      <td>...</td>
+      <td>47.98</td>
+      <td>110.50</td>
+      <td>99.00</td>
+      <td>11.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>902705</th>
+      <td>366234</td>
+      <td>COLONIAL NURSING CENTER OF ROCKFORD</td>
+      <td>ROCKFORD</td>
+      <td>OH</td>
+      <td>Mercer</td>
+      <td>107</td>
+      <td>2024Q1</td>
+      <td>20240317</td>
+      <td>17</td>
       <td>0.0</td>
       <td>...</td>
       <td>0.00</td>
-      <td>83.33</td>
-      <td>83.33</td>
-      <td>0.00</td>
-      <td>11.75</td>
-      <td>11.75</td>
+      <td>38.25</td>
+      <td>38.25</td>
       <td>0.0</td>
-      <td>14.38</td>
-      <td>14.38</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>924408</th>
+      <td>375124</td>
+      <td>SEQUOYAH POINTE SKILLED NURSING AND THERAPY</td>
+      <td>TAHLEQUAH</td>
+      <td>OK</td>
+      <td>Cherokee</td>
+      <td>21</td>
+      <td>2024Q1</td>
+      <td>20240131</td>
+      <td>59</td>
+      <td>8.0</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>80.92</td>
+      <td>80.92</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>14.83</td>
+      <td>14.83</td>
       <td>0.0</td>
     </tr>
   </tbody>
@@ -362,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-16" class="cell" data-execution_count="57">
+<div id="cell-16" class="cell" data-execution_count="11">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: pivot on day</span></span>
@@ -378,7 +378,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># data_pivoted.reset_index(inplace=True)</span></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>data_pivoted</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="57">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -1687,12 +1687,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-17" class="cell" data-execution_count="58">
+<div id="cell-17" class="cell" data-execution_count="24">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data_pivoted.iloc[:, <span class="dv">1</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="58">
+<div class="cell-output cell-output-display" data-execution_count="24">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -3001,32 +3001,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="59">
+<div id="cell-18" class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     GT(data_pivoted, rowname_col="STATE")</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     .fmt_nanoplot(</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         columns=data_pivoted.columns[1:],</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#         reference_line="mean",</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#         reference_area=["min", "q1"]</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     )</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     .fmt_nanoplot(</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#         columns=data_pivoted.columns[1:],</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#         plot_type="bar",</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#         reference_line="max",</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#         reference_area=["max", "median"]</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     )</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    GT(data_pivoted, rowname_col<span class="op">=</span><span class="st">"STATE"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    .fmt_nanoplot(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        columns<span class="op">=</span>data_pivoted.columns[<span class="dv">1</span>:],</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        reference_line<span class="op">=</span><span class="st">"mean"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        reference_area<span class="op">=</span>[<span class="st">"min"</span>, <span class="st">"q1"</span>]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    .fmt_nanoplot(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        columns<span class="op">=</span>data_pivoted.columns[<span class="dv">1</span>:],</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        plot_type<span class="op">=</span><span class="st">"bar"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        reference_line<span class="op">=</span><span class="st">"max"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        reference_area<span class="op">=</span>[<span class="st">"max"</span>, <span class="st">"median"</span>]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-20" class="cell" data-execution_count="61">
+<div id="cell-20" class="cell" data-execution_count="80">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data.describe().<span class="bu">round</span>(<span class="dv">1</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># display(Markdown(data.describe().to_markdown()))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="61">
+<div class="cell-output cell-output-display" data-execution_count="80">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -3255,7 +3255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-fig-scatter-matrix" class="cell page-columns page-full" data-execution_count="62">
+<div id="cell-fig-scatter-matrix" class="cell page-columns page-full" data-execution_count="81">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>attributes <span class="op">=</span> [<span class="st">"Hrs_RN"</span>, <span class="st">"Hrs_LPN_ctr"</span>, <span class="st">"Hrs_CNA"</span>, <span class="st">"Hrs_NAtrn"</span>, <span class="st">"Hrs_MedAide"</span>]</span>
@@ -3280,7 +3280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="fig-scatter-matrix" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-scatter-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<img src="report_files/figure-html/fig-scatter-matrix-output-1.svg" class="img-fluid figure-img column-body-outset-right">
+<img src="technical-snippets_files/figure-html/fig-scatter-matrix-output-1.svg" class="img-fluid figure-img column-body-outset-right">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Scatter matrix of nursing worker working hours
@@ -3289,129 +3289,66 @@ Figure&nbsp;1: Scatter matrix of nursing worker working hours
 </div>
 </div>
 </div>
-<div id="cell-22" class="cell" data-execution_count="63">
+<div id="cell-22" class="cell" data-execution_count="125">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">'name'</span>: [<span class="st">'arizona'</span>, <span class="st">''</span>, <span class="st">'berlin'</span>, <span class="st">'london'</span>]})</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>geolocator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"geo_clipboard"</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.extra.rate_limiter <span class="im">import</span> RateLimiter</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>geocode <span class="op">=</span> RateLimiter(geolocator.geocode, min_delay_seconds<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'location'</span>] <span class="op">=</span> df[<span class="st">'name'</span>].<span class="bu">apply</span>(geocode)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'point'</span>] <span class="op">=</span> df[<span class="st">'location'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> loc: <span class="bu">tuple</span>(loc.point) <span class="cf">if</span> loc <span class="cf">else</span> <span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> great_tables <span class="im">import</span> GT</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> data.loc[<span class="dv">150000</span>:, [</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"STATE"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"COUNTY_NAME"</span>, <span class="st">"COUNTY_FIPS"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CITY"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PROVNAME"</span>, <span class="st">"PROVNUM"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "MDScensus"</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>]].value_counts().reset_index()</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>GT(df.head(n<span class="op">=</span><span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-</div>
-<div id="cell-23" class="cell" data-execution_count="64">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="64">
-<div>
-
-<table class="dataframe table table-sm table-striped small">
-  <thead>
-    <tr>
-      <th></th>
-      <th>name</th>
-      <th>location</th>
-      <th>point</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>arizona</td>
-      <td>(Arizona, United States, (34.395342, -111.7632...</td>
-      <td>(34.395342, -111.763275, 0.0)</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td></td>
-      <td>None</td>
-      <td>None</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>berlin</td>
-      <td>(Berlin, Deutschland, (52.510885, 13.3989367))</td>
-      <td>(52.510885, 13.3989367, 0.0)</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>london</td>
-      <td>(London, Greater London, England, United Kingd...</td>
-      <td>(51.4893335, -0.14405508452768728, 0.0)</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="cell-24" class="cell" data-execution_count="65">
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> great_tables <span class="im">import</span> GT</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> data.loc[<span class="dv">150000</span>:, [</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"STATE"</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"COUNTY_NAME"</span>, <span class="st">"COUNTY_FIPS"</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CITY"</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PROVNAME"</span>, <span class="st">"PROVNUM"</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "MDScensus"</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>]].value_counts().reset_index()</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>GT(df.head(n<span class="op">=</span><span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="65">
-<div id="kayhglloed" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div class="cell-output cell-output-display" data-execution_count="125">
+<div id="hcfgpmvdfg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>
-#kayhglloed table {
+#hcfgpmvdfg table {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
 
-#kayhglloed thead, tbody, tfoot, tr, td, th { border-style: none !important; }
+#hcfgpmvdfg thead, tbody, tfoot, tr, td, th { border-style: none !important; }
  tr { background-color: transparent !important; }
-#kayhglloed p { margin: 0 !important; padding: 0 !important; }
- #kayhglloed .gt_table { display: table !important; border-collapse: collapse !important; line-height: normal !important; margin-left: auto !important; margin-right: auto !important; color: #333333 !important; font-size: 16px !important; font-weight: normal !important; font-style: normal !important; background-color: #FFFFFF !important; width: auto !important; border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #A8A8A8 !important; border-right-style: none !important; border-right-width: 2px !important; border-right-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #A8A8A8 !important; border-left-style: none !important; border-left-width: 2px !important; border-left-color: #D3D3D3 !important; }
- #kayhglloed .gt_caption { padding-top: 4px !important; padding-bottom: 4px !important; }
- #kayhglloed .gt_title { color: #333333 !important; font-size: 125% !important; font-weight: initial !important; padding-top: 4px !important; padding-bottom: 4px !important; padding-left: 5px !important; padding-right: 5px !important; border-bottom-color: #FFFFFF !important; border-bottom-width: 0 !important; }
- #kayhglloed .gt_subtitle { color: #333333 !important; font-size: 85% !important; font-weight: initial !important; padding-top: 3px !important; padding-bottom: 5px !important; padding-left: 5px !important; padding-right: 5px !important; border-top-color: #FFFFFF !important; border-top-width: 0 !important; }
- #kayhglloed .gt_heading { background-color: #FFFFFF !important; text-align: center !important; border-bottom-color: #FFFFFF !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; }
- #kayhglloed .gt_bottom_border { border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; }
- #kayhglloed .gt_col_headings { border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; }
- #kayhglloed .gt_col_heading { color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: normal !important; text-transform: inherit !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; vertical-align: bottom !important; padding-top: 5px !important; padding-bottom: 5px !important; padding-left: 5px !important; padding-right: 5px !important; overflow-x: hidden !important; }
- #kayhglloed .gt_column_spanner_outer { color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: normal !important; text-transform: inherit !important; padding-top: 0 !important; padding-bottom: 0 !important; padding-left: 4px !important; padding-right: 4px !important; }
- #kayhglloed .gt_column_spanner_outer:first-child { padding-left: 0 !important; }
- #kayhglloed .gt_column_spanner_outer:last-child { padding-right: 0 !important; }
- #kayhglloed .gt_column_spanner { border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; vertical-align: bottom !important; padding-top: 5px !important; padding-bottom: 5px !important; overflow-x: hidden !important; display: inline-block !important; width: 100% !important; }
- #kayhglloed .gt_spanner_row { border-bottom-style: hidden !important; }
- #kayhglloed .gt_group_heading { padding-top: 8px !important; padding-bottom: 8px !important; padding-left: 5px !important; padding-right: 5px !important; color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: initial !important; text-transform: inherit !important; border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; vertical-align: middle !important; text-align: left !important; }
- #kayhglloed .gt_empty_group_heading { padding: 0.5px !important; color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: initial !important; border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; vertical-align: middle !important; }
- #kayhglloed .gt_from_md> :first-child { margin-top: 0 !important; }
- #kayhglloed .gt_from_md> :last-child { margin-bottom: 0 !important; }
- #kayhglloed .gt_row { padding-top: 8px !important; padding-bottom: 8px !important; padding-left: 5px !important; padding-right: 5px !important; margin: 10px !important; border-top-style: solid !important; border-top-width: 1px !important; border-top-color: #D3D3D3 !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; vertical-align: middle !important; overflow-x: hidden !important; }
- #kayhglloed .gt_stub { color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: initial !important; text-transform: inherit !important; border-right-style: solid !important; border-right-width: 2px !important; border-right-color: #D3D3D3 !important; padding-left: 5px !important; padding-right: 5px !important; }
- #kayhglloed .gt_stub_row_group { color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: initial !important; text-transform: inherit !important; border-right-style: solid !important; border-right-width: 2px !important; border-right-color: #D3D3D3 !important; padding-left: 5px !important; padding-right: 5px !important; vertical-align: top !important; }
- #kayhglloed .gt_row_group_first td { border-top-width: 2px !important; }
- #kayhglloed .gt_row_group_first th { border-top-width: 2px !important; }
- #kayhglloed .gt_table_body { border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; }
- #kayhglloed .gt_sourcenotes { color: #333333 !important; background-color: #FFFFFF !important; border-bottom-style: none !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; border-left-style: none !important; border-left-width: 2px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 2px !important; border-right-color: #D3D3D3 !important; }
- #kayhglloed .gt_sourcenote { font-size: 90% !important; padding-top: 4px !important; padding-bottom: 4px !important; padding-left: 5px !important; padding-right: 5px !important; text-align: left !important; }
- #kayhglloed .gt_left { text-align: left !important; }
- #kayhglloed .gt_center { text-align: center !important; }
- #kayhglloed .gt_right { text-align: right !important; font-variant-numeric: tabular-nums !important; }
- #kayhglloed .gt_font_normal { font-weight: normal !important; }
- #kayhglloed .gt_font_bold { font-weight: bold !important; }
- #kayhglloed .gt_font_italic { font-style: italic !important; }
- #kayhglloed .gt_super { font-size: 65% !important; }
- #kayhglloed .gt_footnote_marks { font-size: 75% !important; vertical-align: 0.4em !important; position: initial !important; }
- #kayhglloed .gt_asterisk { font-size: 100% !important; vertical-align: 0 !important; }
+#hcfgpmvdfg p { margin: 0 !important; padding: 0 !important; }
+ #hcfgpmvdfg .gt_table { display: table !important; border-collapse: collapse !important; line-height: normal !important; margin-left: auto !important; margin-right: auto !important; color: #333333 !important; font-size: 16px !important; font-weight: normal !important; font-style: normal !important; background-color: #FFFFFF !important; width: auto !important; border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #A8A8A8 !important; border-right-style: none !important; border-right-width: 2px !important; border-right-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #A8A8A8 !important; border-left-style: none !important; border-left-width: 2px !important; border-left-color: #D3D3D3 !important; }
+ #hcfgpmvdfg .gt_caption { padding-top: 4px !important; padding-bottom: 4px !important; }
+ #hcfgpmvdfg .gt_title { color: #333333 !important; font-size: 125% !important; font-weight: initial !important; padding-top: 4px !important; padding-bottom: 4px !important; padding-left: 5px !important; padding-right: 5px !important; border-bottom-color: #FFFFFF !important; border-bottom-width: 0 !important; }
+ #hcfgpmvdfg .gt_subtitle { color: #333333 !important; font-size: 85% !important; font-weight: initial !important; padding-top: 3px !important; padding-bottom: 5px !important; padding-left: 5px !important; padding-right: 5px !important; border-top-color: #FFFFFF !important; border-top-width: 0 !important; }
+ #hcfgpmvdfg .gt_heading { background-color: #FFFFFF !important; text-align: center !important; border-bottom-color: #FFFFFF !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; }
+ #hcfgpmvdfg .gt_bottom_border { border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; }
+ #hcfgpmvdfg .gt_col_headings { border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; }
+ #hcfgpmvdfg .gt_col_heading { color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: normal !important; text-transform: inherit !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; vertical-align: bottom !important; padding-top: 5px !important; padding-bottom: 5px !important; padding-left: 5px !important; padding-right: 5px !important; overflow-x: hidden !important; }
+ #hcfgpmvdfg .gt_column_spanner_outer { color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: normal !important; text-transform: inherit !important; padding-top: 0 !important; padding-bottom: 0 !important; padding-left: 4px !important; padding-right: 4px !important; }
+ #hcfgpmvdfg .gt_column_spanner_outer:first-child { padding-left: 0 !important; }
+ #hcfgpmvdfg .gt_column_spanner_outer:last-child { padding-right: 0 !important; }
+ #hcfgpmvdfg .gt_column_spanner { border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; vertical-align: bottom !important; padding-top: 5px !important; padding-bottom: 5px !important; overflow-x: hidden !important; display: inline-block !important; width: 100% !important; }
+ #hcfgpmvdfg .gt_spanner_row { border-bottom-style: hidden !important; }
+ #hcfgpmvdfg .gt_group_heading { padding-top: 8px !important; padding-bottom: 8px !important; padding-left: 5px !important; padding-right: 5px !important; color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: initial !important; text-transform: inherit !important; border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; vertical-align: middle !important; text-align: left !important; }
+ #hcfgpmvdfg .gt_empty_group_heading { padding: 0.5px !important; color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: initial !important; border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; vertical-align: middle !important; }
+ #hcfgpmvdfg .gt_from_md> :first-child { margin-top: 0 !important; }
+ #hcfgpmvdfg .gt_from_md> :last-child { margin-bottom: 0 !important; }
+ #hcfgpmvdfg .gt_row { padding-top: 8px !important; padding-bottom: 8px !important; padding-left: 5px !important; padding-right: 5px !important; margin: 10px !important; border-top-style: solid !important; border-top-width: 1px !important; border-top-color: #D3D3D3 !important; border-left-style: none !important; border-left-width: 1px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 1px !important; border-right-color: #D3D3D3 !important; vertical-align: middle !important; overflow-x: hidden !important; }
+ #hcfgpmvdfg .gt_stub { color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: initial !important; text-transform: inherit !important; border-right-style: solid !important; border-right-width: 2px !important; border-right-color: #D3D3D3 !important; padding-left: 5px !important; padding-right: 5px !important; }
+ #hcfgpmvdfg .gt_stub_row_group { color: #333333 !important; background-color: #FFFFFF !important; font-size: 100% !important; font-weight: initial !important; text-transform: inherit !important; border-right-style: solid !important; border-right-width: 2px !important; border-right-color: #D3D3D3 !important; padding-left: 5px !important; padding-right: 5px !important; vertical-align: top !important; }
+ #hcfgpmvdfg .gt_row_group_first td { border-top-width: 2px !important; }
+ #hcfgpmvdfg .gt_row_group_first th { border-top-width: 2px !important; }
+ #hcfgpmvdfg .gt_table_body { border-top-style: solid !important; border-top-width: 2px !important; border-top-color: #D3D3D3 !important; border-bottom-style: solid !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; }
+ #hcfgpmvdfg .gt_sourcenotes { color: #333333 !important; background-color: #FFFFFF !important; border-bottom-style: none !important; border-bottom-width: 2px !important; border-bottom-color: #D3D3D3 !important; border-left-style: none !important; border-left-width: 2px !important; border-left-color: #D3D3D3 !important; border-right-style: none !important; border-right-width: 2px !important; border-right-color: #D3D3D3 !important; }
+ #hcfgpmvdfg .gt_sourcenote { font-size: 90% !important; padding-top: 4px !important; padding-bottom: 4px !important; padding-left: 5px !important; padding-right: 5px !important; text-align: left !important; }
+ #hcfgpmvdfg .gt_left { text-align: left !important; }
+ #hcfgpmvdfg .gt_center { text-align: center !important; }
+ #hcfgpmvdfg .gt_right { text-align: right !important; font-variant-numeric: tabular-nums !important; }
+ #hcfgpmvdfg .gt_font_normal { font-weight: normal !important; }
+ #hcfgpmvdfg .gt_font_bold { font-weight: bold !important; }
+ #hcfgpmvdfg .gt_font_italic { font-style: italic !important; }
+ #hcfgpmvdfg .gt_super { font-size: 65% !important; }
+ #hcfgpmvdfg .gt_footnote_marks { font-size: 75% !important; vertical-align: 0.4em !important; position: initial !important; }
+ #hcfgpmvdfg .gt_asterisk { font-size: 100% !important; vertical-align: 0 !important; }
  
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
@@ -3530,70 +3467,70 @@ Figure&nbsp;1: Scatter matrix of nursing worker working hours
 </section>
 <section id="some-gt-examples" class="level2">
 <h2 class="anchored" data-anchor-id="some-gt-examples">Some GT examples</h2>
-<div id="cell-34" class="cell" data-execution_count="74">
+<div id="cell-32" class="cell" data-execution_count="91">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Any</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display <span class="im">as</span> ipy_display, HTML</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> display2(</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>args,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    globs: <span class="bu">dict</span>[<span class="bu">str</span>, Any] <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    bold: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    width: <span class="bu">str</span> <span class="op">=</span> <span class="st">"400px"</span>  <span class="co"># Fixed width for each block</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Display an informative representation of multiple objects side-by-side in Jupyter.</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">    *args : tuple</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">        Tuple of expressions to evaluate and display.</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">    globs : dict[str, Any], default=None</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">        Global namespace, to give eval() access to nonlocals passed by name.</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co">    bold : bool, default=True</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co">        Option to enable/disable string styling.</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">    width : str, default="400px"</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co">        Fixed width for each displayed block in the Jupyter notebook.</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">    Warnings</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co">    --------</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">    This function uses `eval()` to render expressions it receives</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">    as strings. Access to variables in the global namespace is controlled</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co">    by `globs`. Take care to only pass trusted expressions to the function.</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> globs <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        globs <span class="op">=</span> {}</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    outputs <span class="op">=</span> []</span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> arg <span class="kw">in</span> args:</span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>        name <span class="op">=</span> <span class="ss">f"&lt;b&gt;</span><span class="sc">{</span>arg<span class="sc">}</span><span class="ss">&lt;/b&gt;"</span> <span class="cf">if</span> bold <span class="cf">else</span> arg</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>        value <span class="op">=</span> np.<span class="bu">round</span>(<span class="bu">eval</span>(arg, globs), <span class="dv">2</span>)</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        shape <span class="op">=</span> np.shape(value)</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>        content <span class="op">=</span> <span class="ss">f"&lt;div style='width:</span><span class="sc">{</span>width<span class="sc">}</span><span class="ss">; padding:10px; float:left;'&gt;&lt;pre&gt;</span><span class="sc">{</span>name<span class="sc">}</span><span class="ch">\n</span><span class="ss">--- </span><span class="sc">{</span><span class="bu">repr</span>(shape)<span class="sc">}</span><span class="ss"> ---</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">repr</span>(value)<span class="sc">}</span><span class="ss">&lt;/pre&gt;&lt;/div&gt;"</span></span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>        outputs.append(content)</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clearfix for layout</span></span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    clearfix <span class="op">=</span> <span class="st">"&lt;div style='clear: both;'&gt;&lt;/div&gt;"</span></span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display the HTML content in Jupyter</span></span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>    html_output <span class="op">=</span> <span class="st">''</span>.join(outputs) <span class="op">+</span> clearfix</span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>    ipy_display(HTML(html_output))</span>
-<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Any</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display <span class="im">as</span> ipy_display, HTML</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> display2(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>args,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    globs: <span class="bu">dict</span>[<span class="bu">str</span>, Any] <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    bold: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    width: <span class="bu">str</span> <span class="op">=</span> <span class="st">"400px"</span>  <span class="co"># Fixed width for each block</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Display an informative representation of multiple objects side-by-side in Jupyter.</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">    *args : tuple</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">        Tuple of expressions to evaluate and display.</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">    globs : dict[str, Any], default=None</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">        Global namespace, to give eval() access to nonlocals passed by name.</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co">    bold : bool, default=True</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co">        Option to enable/disable string styling.</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co">    width : str, default="400px"</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">        Fixed width for each displayed block in the Jupyter notebook.</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="co">    Warnings</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co">    --------</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co">    This function uses `eval()` to render expressions it receives</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="co">    as strings. Access to variables in the global namespace is controlled</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="co">    by `globs`. Take care to only pass trusted expressions to the function.</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> globs <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        globs <span class="op">=</span> {}</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    outputs <span class="op">=</span> []</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> arg <span class="kw">in</span> args:</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        name <span class="op">=</span> <span class="ss">f"&lt;b&gt;</span><span class="sc">{</span>arg<span class="sc">}</span><span class="ss">&lt;/b&gt;"</span> <span class="cf">if</span> bold <span class="cf">else</span> arg</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>        value <span class="op">=</span> np.<span class="bu">round</span>(<span class="bu">eval</span>(arg, globs), <span class="dv">2</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>        shape <span class="op">=</span> np.shape(value)</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        content <span class="op">=</span> <span class="ss">f"&lt;div style='width:</span><span class="sc">{</span>width<span class="sc">}</span><span class="ss">; padding:10px; float:left;'&gt;&lt;pre&gt;</span><span class="sc">{</span>name<span class="sc">}</span><span class="ch">\n</span><span class="ss">--- </span><span class="sc">{</span><span class="bu">repr</span>(shape)<span class="sc">}</span><span class="ss"> ---</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">repr</span>(value)<span class="sc">}</span><span class="ss">&lt;/pre&gt;&lt;/div&gt;"</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        outputs.append(content)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clearfix for layout</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    clearfix <span class="op">=</span> <span class="st">"&lt;div style='clear: both;'&gt;&lt;/div&gt;"</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display the HTML content in Jupyter</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    html_output <span class="op">=</span> <span class="st">''</span>.join(outputs) <span class="op">+</span> clearfix</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    ipy_display(HTML(html_output))</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-35" class="cell" data-execution_count="75">
+<div id="cell-33" class="cell" data-execution_count="92">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">4</span>]])</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">1</span>]])</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>display2(</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A"</span>, <span class="st">"x.T"</span>, <span class="st">"np.dot(A, x.T)"</span>, globs<span class="op">=</span><span class="bu">globals</span>(), bold<span class="op">=</span><span class="va">True</span>, width<span class="op">=</span><span class="st">"100px"</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">4</span>]])</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">1</span>]])</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>display2(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A"</span>, <span class="st">"x.T"</span>, <span class="st">"np.dot(A, x.T)"</span>, globs<span class="op">=</span><span class="bu">globals</span>(), bold<span class="op">=</span><span class="va">True</span>, width<span class="op">=</span><span class="st">"100px"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div style="width:100px; padding:10px; float:left;"><pre><b>A</b>
@@ -3608,18 +3545,18 @@ array([[3],
        [4]])</pre></div><div style="clear: both;"></div>
 </div>
 </div>
-<div id="cell-36" class="cell" data-execution_count="76">
+<div id="cell-34" class="cell" data-execution_count="93">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>display2(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['STATE'].value_counts()"</span>,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['COUNTY_NAME'].value_counts()"</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['CITY'].value_counts()"</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['PROVNAME'].value_counts()"</span>,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['MDScensus'].value_counts()"</span>,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="st">"340px"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    globs<span class="op">=</span><span class="bu">globals</span>()</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>display2(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['STATE'].value_counts()"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['COUNTY_NAME'].value_counts()"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['CITY'].value_counts()"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['PROVNAME'].value_counts()"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data['MDScensus'].value_counts()"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="st">"340px"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    globs<span class="op">=</span><span class="bu">globals</span>()</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div style="width:340px; padding:10px; float:left;"><pre><b>data['STATE'].value_counts()</b>
@@ -3736,12 +3673,12 @@ MDScensus
 Name: count, Length: 635, dtype: int64</pre></div><div style="clear: both;"></div>
 </div>
 </div>
-<div id="cell-37" class="cell" data-execution_count="77">
+<div id="cell-35" class="cell" data-execution_count="94">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data[[<span class="st">"CY_Qtr"</span>, <span class="st">"WorkDate"</span>, <span class="st">"MDScensus"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data[[<span class="st">"CY_Qtr"</span>, <span class="st">"WorkDate"</span>, <span class="st">"MDScensus"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="77">
+<div class="cell-output cell-output-display" data-execution_count="94">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
