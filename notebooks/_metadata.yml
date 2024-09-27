@@ -33,7 +33,7 @@ execute:
   warning: false
 
 # Default fields for title block and headers
-number-sections: true
+number-sections: false
 abstract-title: abstract
 
 # Enable CC licence appendix
@@ -75,3 +75,9 @@ strip-comments: true
 # Default css and bib files
 # css: ../../generic-css.css
 # bibliography: ../../generic-bib.bib
+
+# Link to shared environment lock file by default
+code-links:
+- text: Lockfile
+  icon: file-lock
+  href: https://github.com/bainmatt/clipboard-report/tree/main/environment.yml
