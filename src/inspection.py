@@ -17,6 +17,8 @@ import numpy as np
 import pandas as pd
 from typing import Any, Iterable
 
+from IPython.display import display as ipy_display, HTML
+
 
 def make_df(cols: Iterable[Any], ind: Iterable[Any]) -> pd.DataFrame:
     """
@@ -150,6 +152,60 @@ def display(
         output += f"\n{name}\n--- {repr(shape)} ---\n{repr(value)}\n\n"
 
     print(output)
+    return None
+
+
+def display2(
+    *args,
+    globs: dict[str, Any] | None = None,
+    bold: bool = True,
+    width: str = "400px"  # Fixed width for each block
+) -> None:
+    """
+    Display an informative representation of multiple objects side-by-side in Jupyter.
+
+    Parameters
+    ----------
+    *args : tuple
+        Tuple of expressions to evaluate and display.
+    globs : dict[str, Any], default=None
+        Global namespace, to give eval() access to nonlocals passed by name.
+    bold : bool, default=True
+        Option to enable/disable string styling.
+    width : str, default="400px"
+        Fixed width for each displayed block in the Jupyter notebook.
+
+    Warnings
+    --------
+    This function uses `eval()` to render expressions it receives
+    as strings. Access to variables in the global namespace is controlled
+    by `globs`. Take care to only pass trusted expressions to the function.
+    """
+
+    if globs is None:
+        globs = {}
+
+    outputs = []
+    for arg in args:
+        name = f"<b>{arg}</b>" if bold else arg
+        value = np.round(eval(arg, globs), 2)
+        shape = np.shape(value)
+        content = (
+            f"<div style='width:{width}; padding:10px; float:left;'>"
+            f"<pre>{name}\n"
+            f"--- {repr(shape)} ---\n"
+            f"{repr(value)}</pre></div>"
+        )
+        # content = f"<div style='width:{width}; padding:10px; float:left;'><pre>{name}\n--- {repr(shape)} ---\n{repr(value)}</pre></div>"  # noqa: E501
+        outputs.append(content)
+
+    # Clearfix for layout
+    clearfix = "<div style='clear: both;'></div>"
+
+    # Display the HTML content in Jupyter
+    html_output = ''.join(outputs) + clearfix
+    ipy_display(HTML(html_output))
+
     return None
 
 

@@ -1,14 +1,24 @@
 # --- Misc ---
 
 # Raw data
-data/raw/
+data/raw/flights.csv
 
 # SQLite database files
 notebooks/*.db
 notebooks/*.db-journal
 
+# Local rendering outputs
+notebooks/*_files
+notebooks/*.out.ipynb
+notebooks/*.typ
+
 # Exploratory notebooks
-# notebooks/technical-snippets.ipynb
+notebooks/quarto_snippets.ipynb
+notebooks/sql_snippets.ipynb
+notebooks/gt_snippets.ipynb
+
+# TODOs
+*TODO.md
 
 # --- System config/cache ---
 

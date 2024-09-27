@@ -179,4 +179,4 @@ clean:
 # -- Render ------------------------------------------------------------------
 
 render:
-	quarto preview notebooks/report.ipynb
+	quarto preview notebooks/
