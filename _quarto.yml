@@ -45,3 +45,4 @@ format:
     # theme:
     #   light: flatly
     #   dark: darkly
+    default-page: notebooks/report.ipynb
