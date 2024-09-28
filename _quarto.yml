@@ -16,9 +16,11 @@ website:
   navbar:
     title: false
   #   background: "#eee"
-  #   left:
-  #     - href: notebooks/report.ipynb
-  #       text: "Report"
+    left:
+      - href: notebooks/report.ipynb
+        text: "Report"
+      - href: notebooks/sql_qs.ipynb
+        text: "SQL exercises"
   #     - href: index.qmd
   #       text: Home
   #     - href: index.xml

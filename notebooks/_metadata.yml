@@ -40,7 +40,7 @@ abstract-title: abstract
 license: "CC BY"
 
 # Enable citation appendix
-citation: false
+citation: true
 
 # Default fields for cross-referencing
 crossrefs-hover: true
