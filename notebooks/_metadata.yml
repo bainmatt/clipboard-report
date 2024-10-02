@@ -47,7 +47,7 @@ citation: true
 crossrefs-hover: true
 footnotes-hover: true
 citations-hover: true
-notebook-links: false
+notebook-links: true
 
 # Default fields for figures
 fig-format: svg
