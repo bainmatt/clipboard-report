@@ -9,13 +9,13 @@ format:
   html:
     html-table-processing: none
   ipynb: default
-  # typst: default
+  typst: default
 format-links:
   - html
   - ipynb
-  # - format: typst
-  #   text: PDF
-  #   icon: file-pdf
+  - format: typst
+    text: PDF
+    icon: file-pdf
 
 # Freeze computed outputs
 freeze: true
