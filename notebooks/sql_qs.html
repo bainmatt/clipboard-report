@@ -131,7 +131,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports">Imports</a></li>
-  <li><a href="#sql" id="toc-sql" class="nav-link" data-scroll-target="#sql">SQL</a>
+  <li><a href="#define-the-tables" id="toc-define-the-tables" class="nav-link" data-scroll-target="#define-the-tables">Define the tables</a></li>
+  <li><a href="#query-the-tables" id="toc-query-the-tables" class="nav-link" data-scroll-target="#query-the-tables">Query the tables</a>
   <ul class="collapse">
   <li><a href="#q1" id="toc-q1" class="nav-link" data-scroll-target="#q1">Q1</a></li>
   <li><a href="#q2" id="toc-q2" class="nav-link" data-scroll-target="#q2">Q2</a></li>
@@ -141,8 +142,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#q6" id="toc-q6" class="nav-link" data-scroll-target="#q6">Q6</a></li>
   <li><a href="#q7" id="toc-q7" class="nav-link" data-scroll-target="#q7">Q7</a></li>
   <li><a href="#q8" id="toc-q8" class="nav-link" data-scroll-target="#q8">Q8</a></li>
+  <li><a href="#q9" id="toc-q9" class="nav-link" data-scroll-target="#q9">Q9</a></li>
+  <li><a href="#q10" id="toc-q10" class="nav-link" data-scroll-target="#q10">Q10</a></li>
   </ul></li>
-  <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up">Wrapping up</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">Wrap up</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="sql_qs.out.ipynb" download="sql_qs.out.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="sql_qs.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div><div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/bainmatt/clipboard-report/tree/main/environment.yml"><i class="bi bi-file-lock"></i>Lockfile</a></li></ul></div></nav>
 </nav>
@@ -180,7 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 28, 2024</p>
+      <p class="date-modified">October 2, 2024</p>
     </div>
   </div>
     
@@ -193,17 +196,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="imports" class="level2">
 <h2 class="anchored" data-anchor-id="imports">Imports</h2>
-<div id="cell-3" class="cell" data-execution_count="1147">
+<div id="cell-3" class="cell" data-execution_count="1376">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown, display</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown, display</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.util <span class="im">import</span> DBManager</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="sql" class="level2">
-<h2 class="anchored" data-anchor-id="sql">SQL</h2>
+<section id="define-the-tables" class="level2">
+<h2 class="anchored" data-anchor-id="define-the-tables">Define the tables</h2>
 <p>Let us imagine we have the following tables in our database:</p>
 <ol type="1">
 <li><strong>Sales</strong></li>
@@ -234,16 +239,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>category</code> (VARCHAR)</li>
 <li><code>price</code> (DECIMAL)</li>
 </ul>
-<p>We can simulate this problem by creating a test database in Python and adding tables to it that match this description.</p>
-<div id="cell-7" class="cell" data-execution_count="1149">
+<p>We can simulate this problem by creating a test database in Python, creating tables within it that match this description, and inserting some example values into the tables.</p>
+<div id="cell-7" class="cell" data-execution_count="1378">
 <details class="code-fold">
 <summary>Create a database</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a database and cursor to query it</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"testdatabase.db"</span>, timeout<span class="op">=</span><span class="fl">10.0</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cursor <span class="op">=</span> conn.cursor()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># db.save()</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># db.close()</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>db_name <span class="op">=</span> <span class="st">"testdatabase.db"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>db <span class="op">=</span> DBManager()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>conn, cursor <span class="op">=</span> db.<span class="bu">open</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-8" class="cell" data-execution_count="1150">
+<div id="cell-9" class="cell" data-execution_count="1380">
 <details class="code-fold">
 <summary>Create the tables</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create `Sales` table</span></span>
@@ -251,15 +260,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="st">    CREATE TABLE IF NOT EXISTS Sales</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">    (</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="st">        sales_id INTEGER PRIMARY KEY AUTOINCREMENT,</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="st">        customer_id INTEGER,</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="st">        product_id INTEGER,</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="st">        sales_date DATE,</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="st">        quantity INTEGER,</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="st">        total_amount DECIMAL(10, 2),</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="st">        sales_id        INTEGER PRIMARY KEY AUTOINCREMENT,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="st">        customer_id     INTEGER,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="st">        product_id      INTEGER,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="st">        sales_date      DATE,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="st">        quantity        INTEGER,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="st">        total_amount    DECIMAL(10, 2),</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="st">        FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="st">        FOREIGN KEY (product_id) REFERENCES Products(product_id)</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="st">    )</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="st">    );</span></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
@@ -268,11 +277,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="st">    CREATE TABLE IF NOT EXISTS Customers</span></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="st">    (</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="st">        customer_id INTEGER PRIMARY KEY AUTOINCREMENT,</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="st">        customer_name VARCHAR(255) NOT NULL,</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="st">        sales_region VARCHAR(255),</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="st">        sign_up_date DATE</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="st">    )</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="st">        customer_id     INTEGER PRIMARY KEY AUTOINCREMENT,</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="st">        customer_name   VARCHAR(255) NOT NULL,</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="st">        sales_region    VARCHAR(255),</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="st">        sign_up_date    DATE</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="st">    );</span></span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
@@ -281,26 +290,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="st">    CREATE TABLE IF NOT EXISTS Products</span></span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="st">    (</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="st">        product_id INTEGER PRIMARY KEY AUTOINCREMENT,</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="st">        product_name VARCHAR(255) NOT NULL,</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="st">        category VARCHAR(255),</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="st">        price DECIMAL(10, 2)</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="st">    )</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="st">        product_id      INTEGER PRIMARY KEY AUTOINCREMENT,</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="st">        product_name    VARCHAR(255) NOT NULL,</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="st">        category        VARCHAR(255),</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="st">        price           DECIMAL(10, 2)</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="st">    );</span></span>
 <span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
 <span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1150">
-<pre><code>&lt;sqlite3.Cursor at 0x127d3b3c0&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="1380">
+<pre><code>&lt;sqlite3.Cursor at 0x1318ec4c0&gt;</code></pre>
 </div>
 </div>
-<div id="cell-9" class="cell" data-execution_count="1151">
+<div id="cell-10" class="cell" data-execution_count="1381">
 <details class="code-fold">
-<summary>Insert example data</summary>
+<summary>Insert example data into the tables</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Insert record into `Customers` table</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO Customers</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">    (customer_name, sales_region, sign_up_date)</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (?, ?, ?)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (?, ?, ?);</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"John Doe"</span>, <span class="st">"West"</span>, <span class="st">"2023-09-25"</span>),</span>
@@ -313,7 +322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO Products</span></span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="st">    (product_name, category, price)</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (?, ?, ?)</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (?, ?, ?);</span></span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Washing machine"</span>, <span class="st">"Appliances"</span>, <span class="fl">1500.00</span>),</span>
@@ -326,22 +335,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO Sales</span></span>
 <span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="st">    (customer_id, product_id, sales_date, quantity, total_amount)</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (?, ?, ?, ?, ?)</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (?, ?, ?, ?, ?);</span></span>
 <span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [</span>
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">1</span>, <span class="st">"2023-09-26"</span>, <span class="dv">2</span>, values[<span class="dv">0</span>][<span class="dv">2</span>] <span class="op">*</span> <span class="dv">2</span>),</span>
 <span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="dv">1</span>, <span class="st">"2023-01-15"</span>, <span class="dv">4</span>, values[<span class="dv">0</span>][<span class="dv">2</span>] <span class="op">*</span> <span class="dv">4</span>),</span>
 <span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="dv">2</span>, <span class="st">"2024-09-20"</span>, <span class="dv">3</span>, values[<span class="dv">1</span>][<span class="dv">2</span>] <span class="op">*</span> <span class="dv">3</span>),</span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">3</span>, <span class="dv">3</span>, <span class="st">"2024-09-22"</span>, <span class="dv">9</span>, values[<span class="dv">2</span>][<span class="dv">2</span>] <span class="op">*</span> <span class="dv">9</span>),</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">2</span>, <span class="st">"2023-09-26"</span>, <span class="dv">5</span>, values[<span class="dv">1</span>][<span class="dv">2</span>] <span class="op">*</span> <span class="dv">5</span>),</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">3</span>, <span class="dv">3</span>, <span class="st">"2024-08-22"</span>, <span class="dv">9</span>, values[<span class="dv">2</span>][<span class="dv">2</span>] <span class="op">*</span> <span class="dv">10</span>),</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">2</span>, <span class="st">"2023-09-26"</span>, <span class="dv">40</span>, values[<span class="dv">1</span>][<span class="dv">2</span>] <span class="op">*</span> <span class="dv">40</span>),</span>
 <span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>cursor.executemany(query, values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1151">
-<pre><code>&lt;sqlite3.Cursor at 0x127d3b3c0&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="1381">
+<pre><code>&lt;sqlite3.Cursor at 0x1318ec4c0&gt;</code></pre>
 </div>
 </div>
-<div id="cell-10" class="cell" data-cold-fold="true" data-execution_count="1152">
+<div id="cell-11" class="cell" data-cold-fold="true" data-execution_count="1382">
 <details open="" class="code-fold">
 <summary>Check the contents of the tables</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query `Sales`</span></span>
@@ -419,9 +428,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <td>4</td>
       <td>3</td>
       <td>3</td>
-      <td>2024-09-22</td>
+      <td>2024-08-22</td>
       <td>9</td>
-      <td>7200</td>
+      <td>8000</td>
     </tr>
     <tr>
       <th>4</th>
@@ -429,8 +438,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <td>1</td>
       <td>2</td>
       <td>2023-09-26</td>
-      <td>5</td>
-      <td>5000</td>
+      <td>40</td>
+      <td>40000</td>
     </tr>
   </tbody>
 </table>
@@ -521,10 +530,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>With these example tables constructed, let us now run some queries.</p>
+</section>
+<section id="query-the-tables" class="level2">
+<h2 class="anchored" data-anchor-id="query-the-tables">Query the tables</h2>
 <section id="q1" class="level3">
 <h3 class="anchored" data-anchor-id="q1">Q1</h3>
 <p><em>Write a query to return the customer_name, product_name, and total_amount for each sale in the last 30 days.</em></p>
-<div id="cell-15" class="cell" data-execution_count="1155">
+<div id="cell-17" class="cell" data-execution_count="1384">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
@@ -543,7 +556,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1155">
+<div class="cell-output cell-output-display" data-execution_count="1384">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -562,12 +575,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <td>Laptop</td>
       <td>3000</td>
     </tr>
-    <tr>
-      <th>1</th>
-      <td>Chris Nguyen</td>
-      <td>Phone</td>
-      <td>7200</td>
-    </tr>
   </tbody>
 </table>
 </div>
@@ -577,7 +584,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="q2" class="level3">
 <h3 class="anchored" data-anchor-id="q2">Q2</h3>
 <p><em>Write a query to find the total revenue generated by each product category in the last year. The output should include the product category and the total revenue for that category.</em></p>
-<div id="cell-18" class="cell" data-execution_count="1156">
+<div id="cell-20" class="cell" data-execution_count="1385">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
@@ -595,7 +602,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1156">
+<div class="cell-output cell-output-display" data-execution_count="1385">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -610,7 +617,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <tr>
       <th>0</th>
       <td>Electronics</td>
-      <td>10200</td>
+      <td>11000</td>
     </tr>
   </tbody>
 </table>
@@ -621,7 +628,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="q3" class="level3">
 <h3 class="anchored" data-anchor-id="q3">Q3</h3>
 <p><em>Write a query to return all customers who made purchases in 2023 and are located in the “West” region.</em></p>
-<div id="cell-21" class="cell" data-execution_count="1157">
+<div id="cell-23" class="cell" data-execution_count="1386">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
@@ -633,11 +640,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">        ON Customers.customer_id = Sales.customer_id</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">        strftime('%Y', Sales.sales_date) = '2023'</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">        AND Customers.sales_region = 'West'</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">        AND Customers.sales_region = 'West';</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1157">
+<div class="cell-output cell-output-display" data-execution_count="1386">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -661,7 +668,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="q4" class="level3">
 <h3 class="anchored" data-anchor-id="q4">Q4</h3>
 <p><em>Write a query to display the total number of sales, total quantity sold, and total revenue for each customer. The result should include the customer_name, total sales, total quantity, and total revenue.</em></p>
-<div id="cell-24" class="cell" data-execution_count="1158">
+<div id="cell-26" class="cell" data-execution_count="1387">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
@@ -679,7 +686,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1158">
+<div class="cell-output cell-output-display" data-execution_count="1387">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -697,8 +704,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <th>0</th>
       <td>John Doe</td>
       <td>2</td>
-      <td>7</td>
-      <td>8000</td>
+      <td>42</td>
+      <td>43000</td>
     </tr>
     <tr>
       <th>1</th>
@@ -712,7 +719,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <td>Chris Nguyen</td>
       <td>1</td>
       <td>9</td>
-      <td>7200</td>
+      <td>8000</td>
     </tr>
   </tbody>
 </table>
@@ -723,7 +730,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="q5" class="level3">
 <h3 class="anchored" data-anchor-id="q5">Q5</h3>
 <p><em>Write a query to find the top 3 customers (by total revenue) in the year 2023.</em></p>
-<div id="cell-27" class="cell" data-execution_count="1159">
+<div id="cell-29" class="cell" data-execution_count="1388">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
@@ -742,7 +749,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1159">
+<div class="cell-output cell-output-display" data-execution_count="1388">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -757,7 +764,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <tr>
       <th>0</th>
       <td>John Doe</td>
-      <td>8000.0</td>
+      <td>43000.0</td>
     </tr>
     <tr>
       <th>1</th>
@@ -778,7 +785,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="q6" class="level3">
 <h3 class="anchored" data-anchor-id="q6">Q6</h3>
 <p><em>Write a query to rank products by their total sales quantity in 2023. The result should include the product_name, total quantity sold, and rank.</em></p>
-<div id="cell-30" class="cell" data-execution_count="1160">
+<div id="cell-32" class="cell" data-execution_count="1389">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
@@ -797,7 +804,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1160">
+<div class="cell-output cell-output-display" data-execution_count="1389">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -812,14 +819,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <tbody>
     <tr>
       <th>0</th>
-      <td>Washing machine</td>
-      <td>6.0</td>
+      <td>Laptop</td>
+      <td>40.0</td>
       <td>1</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Laptop</td>
-      <td>5.0</td>
+      <td>Washing machine</td>
+      <td>6.0</td>
       <td>2</td>
     </tr>
     <tr>
@@ -837,7 +844,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="q7" class="level3">
 <h3 class="anchored" data-anchor-id="q7">Q7</h3>
 <p><em>Write a query that categorizes customers into “New” (if they signed up in the last 6 months) or “Existing” based on their sign_up_date. Include the customer_name, region, and category in the result.</em></p>
-<div id="cell-33" class="cell" data-execution_count="1161">
+<div id="cell-35" class="cell" data-execution_count="1390">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
@@ -855,11 +862,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="st">        Customers</span></span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="st">    LEFT JOIN Sales</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="st">        ON Customers.customer_id = Sales.customer_id</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="st">        ON Customers.customer_id = Sales.customer_id;</span></span>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1161">
+<div class="cell-output cell-output-display" data-execution_count="1390">
 <div>
 
 <table class="dataframe table table-sm table-striped small">
@@ -899,17 +906,318 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="q8" class="level3">
 <h3 class="anchored" data-anchor-id="q8">Q8</h3>
 <p><em>Write a query to return the month and year along with the total sales for each month for the last 12 months.</em></p>
+<div id="cell-38" class="cell" data-cold-fold="true" data-execution_count="1391">
+<details open="" class="code-fold">
+<summary>Create a date dimension table</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the table</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>query_create_table <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="st">    CREATE TABLE IF NOT EXISTS date_dim (</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">        year        INTEGER,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">        month       INTEGER,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">        month_name  VARCHAR(255)</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="st">    );</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>conn.execute(query_create_table)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a date range</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>start_date <span class="op">=</span> <span class="st">'2023-01-01'</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>end_date <span class="op">=</span> pd.to_datetime(<span class="st">'now'</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>date_range <span class="op">=</span> pd.date_range(</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    start<span class="op">=</span>start_date, end<span class="op">=</span>end_date, freq<span class="op">=</span><span class="st">"ME"</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract year and month pairs from the date range</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    (date.year, date.month, date.month_name())</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> date <span class="kw">in</span> date_range</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Insert the values into the table</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>conn.executemany(</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO date_dim (year, month, month_name) VALUES (?, ?, ?);"</span>,</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    values</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1391">
+<pre><code>&lt;sqlite3.Cursor at 0x1318eec40&gt;</code></pre>
+</div>
+</div>
+<div id="cell-39" class="cell" data-execution_count="1392">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">        d.year AS sales_year,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">        d.month_name AS sales_month,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="st">        COALESCE(COUNT(S.sales_id), 0) AS total_sales</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="st">        date_dim d</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="st">    LEFT JOIN</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="st">        Sales S ON d.year = strftime('%Y', S.sales_date)</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="st">        AND d.month = strftime('%m', S.sales_date)</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="st">        d.year &gt;= strftime('%Y', DATE('now', '-12 months'))</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="st">        d.year, d.month</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="st">    ORDER BY</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="st">        d.year, d.month;</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1392">
+<div>
+
+<table class="dataframe table table-sm table-striped small">
+  <thead>
+    <tr>
+      <th></th>
+      <th>sales_year</th>
+      <th>sales_month</th>
+      <th>total_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2023</td>
+      <td>January</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2023</td>
+      <td>February</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2023</td>
+      <td>March</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2023</td>
+      <td>April</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2023</td>
+      <td>May</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2023</td>
+      <td>June</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2023</td>
+      <td>July</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2023</td>
+      <td>August</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2023</td>
+      <td>September</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2023</td>
+      <td>October</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2023</td>
+      <td>November</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2023</td>
+      <td>December</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2024</td>
+      <td>January</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2024</td>
+      <td>February</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2024</td>
+      <td>March</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2024</td>
+      <td>April</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2024</td>
+      <td>May</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2024</td>
+      <td>June</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2024</td>
+      <td>July</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2024</td>
+      <td>August</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2024</td>
+      <td>September</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="q9" class="level3">
+<h3 class="anchored" data-anchor-id="q9">Q9</h3>
+<p><em>Write a query to return the product categories that generated more than $50,000 in revenue during the last 6 months.</em></p>
+<div id="cell-42" class="cell" data-execution_count="1393">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="st">        Products.category,</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="st">        SUM(Sales.total_amount) as total_revenue</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="st">        Products</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="st">    LEFT JOIN Sales</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="st">        ON Products.product_id = Sales.product_id</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="st">        Sales.sales_date &gt;= DATE('now', '-25 months')</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="st">        Products.category</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="st">    HAVING</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="st">        SUM(Sales.total_amount) &gt;= 50000;</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1393">
+<div>
+
+<table class="dataframe table table-sm table-striped small">
+  <thead>
+    <tr>
+      <th></th>
+      <th>category</th>
+      <th>total_revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Electronics</td>
+      <td>51000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="q10" class="level3">
+<h3 class="anchored" data-anchor-id="q10">Q10</h3>
+<p><em>Write a query to check for any sales where the total_amount doesn’t match the expected value (i.e., quantity * price).</em></p>
+<div id="cell-45" class="cell" data-execution_count="1394">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">        Sales.*,</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">        Products.price</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">        Sales</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">    LEFT JOIN Products</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st">        ON Sales.product_id = Products.product_id</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st">        Sales.total_amount != Sales.quantity * Products.price</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>pd.read_sql(query, conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1394">
+<div>
+
+<table class="dataframe table table-sm table-striped small">
+  <thead>
+    <tr>
+      <th></th>
+      <th>sales_id</th>
+      <th>customer_id</th>
+      <th>product_id</th>
+      <th>sales_date</th>
+      <th>quantity</th>
+      <th>total_amount</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2024-08-22</td>
+      <td>9</td>
+      <td>8000</td>
+      <td>800</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
 </section>
 </section>
-<section id="wrapping-up" class="level2">
-<h2 class="anchored" data-anchor-id="wrapping-up">Wrapping up</h2>
-<div id="cell-38" class="cell" data-execution_count="1162">
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up">Wrap up</h2>
+<div id="cell-47" class="cell" data-execution_count="1395">
 <details class="code-fold">
 <summary>Close the database connection</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cursor.close()</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>db.save()</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>db.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>And that concludes this brief tour of using <code>sqlite3</code> in Python to create a test database and define, manipulate, and query tables inside it.</p>
 
 
 </section>
