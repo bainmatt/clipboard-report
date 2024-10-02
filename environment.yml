@@ -12,7 +12,8 @@ dependencies:
   - python=3.11
   - pip>=19.0
   - jupyter
-  - numpy
+  # - numpy
+  - scipy
   - pandas
   - matplotlib
   - geopandas

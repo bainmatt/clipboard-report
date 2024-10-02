@@ -11,6 +11,7 @@ notebooks/*.db-journal
 notebooks/*_files
 notebooks/*.out.ipynb
 notebooks/*.typ
+notebooks/*.html
 
 # Exploratory notebooks
 notebooks/quarto_snippets.ipynb

@@ -1,7 +1,8 @@
 jupyter>=1.1.1
 
 requests>=2.32.3
-numpy>=2.1.1
+# numpy>=2.1.1
+scipy>=1.9.3
 pandas>=2.2.2
 matplotlib>=3.9.2
 great-tables>=0.11.1

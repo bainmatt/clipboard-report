@@ -51,7 +51,7 @@ notebook-links: false
 
 # Default fields for figures
 fig-format: svg
-fig-align: left
+fig-align: center
 cap-location: bottom
 
 # Default fields for tables
@@ -79,6 +79,11 @@ strip-comments: true
 
 # Link to shared environment lock file by default
 code-links:
-- text: Lockfile
-  icon: file-lock
-  href: https://github.com/bainmatt/clipboard-report/tree/main/environment.yml
+  - text: Lockfile
+    icon: file-lock
+    href: https://github.com/bainmatt/clipboard-report/tree/main/environment.yml
+
+# urls:
+#   - pandas: https://pandas.pydata.org/pandas-docs/stable/
+#   - numpy: https://numpy.org/doc/stable/
+#   - base: https://docs.python.org/3/
