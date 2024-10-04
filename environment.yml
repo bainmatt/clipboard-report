@@ -29,7 +29,7 @@ dependencies:
   # - pycurl
 
   # Secure API key retrieval
-  # - python-dotenv
+  - python-dotenv
 
   - pip:
     # Tables
