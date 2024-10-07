@@ -12,17 +12,26 @@ dependencies:
   - python=3.11
   - pip>=19.0
   - jupyter
-  # - numpy
-  - scipy
   - pandas
+  # - numpy
+
+  # Dataviz
   - matplotlib
+  - plotly
   - geopandas
   - geopy
-  # - mysql
-  # - seaborn
-  # - pydantic
+  - seaborn
+
+  # Stats
+  - scipy
+  - statsmodels
+  - arviz
+
+  # ETL
   # - requests
+  # - pydantic
   # - bs4
+  # - mysql
 
   # Ensures pycurl and wptools are installed correctly
   # - openssl
@@ -32,11 +41,17 @@ dependencies:
   - python-dotenv
 
   - pip:
+    # Stats
+    - bambi
+
     # Tables
     - great-tables
     - polars
     # - pyarrow
     # - tabulate
+
+    # EDA
+    - holidays
 
     # SQL
     # - mysql

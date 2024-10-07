@@ -17,6 +17,7 @@ notebooks/*.html
 notebooks/quarto_snippets.ipynb
 notebooks/sql_snippets.ipynb
 notebooks/gt_snippets.ipynb
+notebooks/bayes_snippets.ipynb
 
 # TODOs
 *TODO.md
