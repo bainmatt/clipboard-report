@@ -75,6 +75,13 @@ def display(
     bold : bool, default=True
         Option to enable/disable string styling.
 
+    Notes
+    -----
+    To view a complete column view of a DataFrame:
+
+        with pd.option_context('display.max_columns', None):
+            display("{object}", globs=globals())
+
     Warnings
     --------
     This function uses `eval()` to render expressions it receives
@@ -210,7 +217,6 @@ def display2(
 
 
 def main():
-    # Comment out (2) to run all tests in script; (1) to run specific tests
     import doctest
     doctest.testmod(verbose=True)
 

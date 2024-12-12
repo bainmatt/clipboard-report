@@ -75,18 +75,6 @@ def main(to_test: list[Callable[..., Any]] | None = None):
     else:
         doctest.testmod(verbose=True)
 
-    # -- One-off tests -------------------------------------------------------
-
-    # import pandas as pd
-    # pd.read_csv(
-    #     "data/raw/PBJ_Daily_Nurse_Staffing_Q1_2024.zip",
-    #     encoding='ISO-8859-1',
-    #     low_memory=False
-    # )
-
-    # from pathlib import Path
-    # print(Path(__file__))
-
     pass
 
 

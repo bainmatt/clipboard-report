@@ -23,6 +23,7 @@ dependencies:
   - seaborn
 
   # Stats
+  - scikit-learn
   - scipy
   - statsmodels
   - arviz
@@ -47,7 +48,7 @@ dependencies:
     # Tables
     - great-tables
     - polars
-    # - pyarrow
+    - pyarrow
     # - tabulate
 
     # EDA
@@ -67,3 +68,4 @@ dependencies:
     - pytest
     - coverage
     - flake8
+    - typing_inspect
