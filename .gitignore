@@ -2,12 +2,14 @@
 
 # Raw data
 data/raw/flights.csv
+data/raw/flights.parquet
+data/raw/nursing.parquet
 
 # SQLite database files
 notebooks/*.db
 notebooks/*.db-journal
 
-# Local rendering outputs
+# Local rendering artifacts
 notebooks/*_files
 notebooks/*.out.ipynb
 notebooks/*.typ

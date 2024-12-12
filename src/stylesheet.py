@@ -88,8 +88,8 @@ def customize_plots() -> None:
     # -- General properties --------------------------------------------------
 
     # Font face and sizes
+
     mpl.rcParams['font.family'] = 'sans-serif'
-    # NOTE: will need to be reverted to the default for use in a notebook.
     # mpl.rcParams['font.sans-serif'] = "Verdana"
     mpl.rcParams['font.size'] = 9               # default font sizes
     mpl.rcParams['axes.titlesize'] = 14         # large
@@ -102,6 +102,7 @@ def customize_plots() -> None:
     mpl.rcParams['figure.labelsize'] = 13       # large (sup[x|y]label size)
 
     # Spines and ticks
+
     mpl.rcParams['axes.spines.top'] = True
     mpl.rcParams['axes.spines.right'] = True
     mpl.rcParams['axes.linewidth'] = .7
@@ -114,6 +115,7 @@ def customize_plots() -> None:
     # mpl.rcParams['ytick.major.width'] =  0.8
 
     # Grid
+
     # lines at {major, minor, both} ticks
     mpl.rcParams['axes.grid.which'] = 'major'
     mpl.rcParams['grid.linestyle'] = '-'
@@ -122,6 +124,7 @@ def customize_plots() -> None:
     mpl.rcParams['grid.alpha'] = .2
 
     # Label placement
+
     mpl.rcParams['axes.titlelocation'] = 'center'  # {left, right, center}
     mpl.rcParams['axes.titlepad'] = 7.5  # 6
     mpl.rcParams['axes.labelpad'] = 7.5  # 4
@@ -129,6 +132,7 @@ def customize_plots() -> None:
     # mpl.rcParams['ytick.major.pad'] = 3.5
 
     # Discrete color cycle (and continuous map)
+
     mpl.rcParams['axes.prop_cycle'] = cycler(
         color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
     )
@@ -140,11 +144,12 @@ def customize_plots() -> None:
     # )
 
     # Legend properties
+
     mpl.rcParams['legend.loc'] = 'best'
     mpl.rcParams['legend.frameon'] = False
-    mpl.rcParams['legend.loc'] = 'best'
 
     # Legend padding
+
     # mpl.rcParams['legend.borderpad'] =  0.4     # border whitespace
     # mpl.rcParams['legend.labelspacing'] = 0.5   # vert space between entries
     mpl.rcParams['legend.handlelength'] = 1.35    # length of the legend lines
@@ -154,6 +159,7 @@ def customize_plots() -> None:
     mpl.rcParams['legend.columnspacing'] = 1.0    # column separation
 
     # Space-filling object properties (e.g., polygons/circles, bars/scatter)
+
     mpl.rcParams['patch.edgecolor'] = 'black'  # if forced, else not filled
     mpl.rcParams['patch.force_edgecolor'] = 1
     mpl.rcParams['patch.linewidth'] = .4       # edgewidth (default: .5)
@@ -161,17 +167,21 @@ def customize_plots() -> None:
     # -- Object-specific properties ------------------------------------------
 
     # Scatter properties
+
     # mpl.rcParams['scatter.edgecolors'] = 'black'  # alt: 'face' (match edges)
 
     # Line properties
+
     mpl.rcParams['lines.markersize'] = 6
     mpl.rcParams['lines.linewidth'] = 2
 
     # Bar properties
+
     # NOTE: No global styling parameter exists for the following:
     # mpl.rcParams['bar.width'] = 0.8
 
     # Error properties
+
     mpl.rcParams['errorbar.capsize'] = 3
 
     # NOTE: No global styling parameter exists for the following:
@@ -179,93 +189,98 @@ def customize_plots() -> None:
     # mpl.rcParams['errorbar.linewidth'] = 1.5
 
     # Contour properties
+
     # if `none`, falls back to line.linewidth
     mpl.rcParams['contour.linewidth'] = 1
 
     # Histogram properties
+
     # hist.bins: 10  # the default number of histogram bins or 'auto'
 
     # Box properties
-    # box
-    mpl.rcParams['boxplot.boxprops.linewidth'] = 0      # box outline (0.5)
-    # mpl.rcParams['boxplot.boxprops.color'] = 'none'   # alt: 'black' (check)
 
-    # box line to cap
+    # Box
+    mpl.rcParams['boxplot.boxprops.linewidth'] = 0      # box outline (0.5)
+    # mpl.rcParams['boxplot.boxprops.color'] = 'none'   # alt: 'black'
+
+    # Box line to cap
     mpl.rcParams['boxplot.whiskerprops.linewidth'] = .65
     mpl.rcParams['boxplot.whiskerprops.linestyle'] = '--'
-    # mpl.rcParams['boxplot.whiskerprops.color'] = 'black'          # (check)
+    # mpl.rcParams['boxplot.whiskerprops.color'] = 'black'          #
 
-    # box cap line
+    # Box cap line
     mpl.rcParams['boxplot.capprops.linewidth'] = .75
-    # mpl.rcParams['boxplot.capprops.color'] = 'black'              # (check)
+    # mpl.rcParams['boxplot.capprops.color'] = 'black'              #
 
-    # box median line
+    # Box median line
     mpl.rcParams['boxplot.medianprops.linewidth'] = 1
     mpl.rcParams['boxplot.medianprops.linestyle'] = '-'
-    # mpl.rcParams['boxplot.medianprops.color'] = 'black'           # (check)
+    # mpl.rcParams['boxplot.medianprops.color'] = 'black'           #
 
     mpl.rcParams['boxplot.meanprops.linewidth'] = 1
     mpl.rcParams['boxplot.meanprops.linestyle'] = '-'
-    # mpl.rcParams['boxplot.meanprops.color'] = 'black'             # (check)
+    # mpl.rcParams['boxplot.meanprops.color'] = 'black'             #
 
-    # box scatter
+    # Box scatter
     mpl.rcParams['boxplot.flierprops.markerfacecolor'] = 'none'
     mpl.rcParams['boxplot.flierprops.markeredgewidth'] = .65
     mpl.rcParams['boxplot.flierprops.marker'] = 'o'
-    # mpl.rcParams['boxplot.flierprops.markersize'] = 6             # (check)
-    # mpl.rcParams['boxplot.flierprops.linewidth'] = 0              # (check)
-    # mpl.rcParams['boxplot.flierprops.markeredgecolor'] = 'black'  # (check)
-    # mpl.rcParams['boxplot.flierprops.color'] = 'black'            # (check)
+    # mpl.rcParams['boxplot.flierprops.markersize'] = 6             #
+    # mpl.rcParams['boxplot.flierprops.linewidth'] = 0              #
+    # mpl.rcParams['boxplot.flierprops.markeredgecolor'] = 'black'  #
+    # mpl.rcParams['boxplot.flierprops.color'] = 'black'            #
 
     # -- Figure padding ------------------------------------------------------
 
     # Figure layout
+
     # auto-make plot elements fit on figure
     mpl.rcParams['figure.autolayout'] = True
-    mpl.rcParams['figure.constrained_layout.use'] = True  # apply tight layout
+    mpl.rcParams['figure.constrained_layout.use'] = True
 
-    # Subplot padding (all dims are a fraction of the fig width and height)/
-    # NOTE: not compatible with constrained_layout.
-    #
+    # Subplot padding (all dims are a fraction of the fig width and height)
+
+    # NOTE: not compatible with constrained_layout:
     # mpl.rcParams['figure.subplot.left'] = .125    # left side
     # mpl.rcParams['figure.subplot.right'] = 0.9    # right side of subplots
     # mpl.rcParams['figure.subplot.bottom'] = 0.11  # bottom of subplots
     # mpl.rcParams['figure.subplot.top'] = 0.88     # top of subplots
 
     # Reserved space between subplots
+
     # mpl.rcParams['figure.subplot.wspace'] = 0.2   # width
     # mpl.rcParams['figure.subplot.hspace'] = 0.2   # height
 
     # Constrained layout padding (not compatible with autolayout)
+
     # mpl.rcParams['figure.constrained_layout.h_pad'] = 0.04167
     # mpl.rcParams['figure.constrained_layout.w_pad'] = 0.04167
 
     # Constrained layout spacing between subplots, relative to subplot sizes.
-    # Is much smaller than tight_layout (figure.subplot.{hspace, wspace)
+
+    # NOTE: Much smaller than tight_layout (figure.subplot.{hspace, wspace)
     # as constrained_layout already takes surrounding text
     # (titles, labels, # ticklabels) into account.
+
     # NOTE: not compatible with autolayout.
-    #
     # mpl.rcParams['figure.constrained_layout.hspace'] = 0.02
     # mpl.rcParams['figure.constrained_layout.wspace'] = 0.02
 
     # -- Other ---------------------------------------------------------------
 
     # Figure size and quality
+
     mpl.rcParams['figure.dpi'] = 100         # NOTE: Alters figure size
     mpl.rcParams['figure.figsize'] = (5, 5)  # (6, 4), (6.4, 4.8)
 
     # Figure saving settings
+
     mpl.rcParams['savefig.transparent'] = False
     mpl.rcParams['savefig.format'] = 'svg'  # {png, ps, pdf, svg}
     mpl.rcParams['savefig.dpi'] = 330
 
-    # Set format/quality of inline figures in Jupyter notebooks
-    # %config InlineBackend.figure_format = 'svg'
-
 
 def main():
-    # Comment out (2) to run all tests in script; (1) to run specific tests
     import doctest
     doctest.testmod(verbose=True)
 
