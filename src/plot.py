@@ -2,6 +2,10 @@
 Custom plotting functions that map onto tidy statistical summaries.
 
 TODO: make style work w faceting (use suplot args) (and add wrap: int option)
+- faceted legend label color should match palette ix
+- 1 supylabel/supxlabel or one per facet row/col facet
+- set x/ytick formatting across panes
+
 TODO: bring back get_col_names (return dict of any non-empty & unpack to self)
 TODO: match_col_names check 1/ but ci/hdi/q, num but par_cols, dat list[float]
 TODO: label_df/Precis.label() > refactor doctests (+ validate labs in val.py)
@@ -21,6 +25,8 @@ TODO: ?move process_columns/get_names to Precis
 TODO: Precis.prettify (ixs, Multi, round, drop non-pri met + _, GT $/date typ)
 TODO: Precis.save (ext funcs take dat/mod/log/stat/fig + id/typ/dt)
 TODO: to make_precis add opt arg 25/75 quants + record to self in get_names
+
+TODO: Pr meth get_lgest(par_col, n, invert=F), drop_par()) fold stats/ls over
 """
 
 # flake8: noqa: F841  # *** temporary
@@ -32,7 +38,7 @@ from abc import ABC, abstractmethod
 
 import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib.ticker import FormatStrFormatter
+from matplotlib.ticker import FormatStrFormatter, FuncFormatter
 
 from src.validate import validate_args
 from src.colors import RGBType, get_palette, _process_rgb
@@ -247,71 +253,142 @@ class RidgePlot(BasePlot):
     >>> from src.stylesheet import customize_plots
     >>> customize_plots()
 
+    Load real-world data
+
     >>> df = pd.read_parquet(
     ...     path=get_path_to("data", "raw", "flights.parquet"),
     ...     engine="pyarrow"
     ... )
 
-    Get groups
+    Get groups and levels of interest
 
     >>> groups = (
     ...     df.groupby("country")["total_flights"]
-    ...     .mean().nlargest(5).index
+    ...     .mean().nlargest(5)
+    ...     .index
     ... )
-    >>> df = df[df["country"].isin(groups)]
-
-    Get levels
-
     >>> df["day"] = pd.to_datetime(df["day"])
     >>> df["day_of_week"] = df["day"].dt.day_name()
     >>> levels = (
     ...     df.groupby("day_of_week")["total_flights"]
-    ...     .mean().nlargest(7).index
+    ...     .mean().sort_values().iloc[[0, 2, -1]]
+    ...     .index
     ... )
-    >>> df = df[df["day_of_week"].isin(levels)]
-    >>> print(df.head())  # doctest: +ELLIPSIS
-        country        day  ...  total_flights  day_of_week
-    534  Canada 2020-01-01  ...         1175.0    Wednesday
-    535  Canada 2020-01-02  ...         1268.0     Thursday
-    ...
 
-    Create precis
+    Set common precis params
 
-    >>> precis = Precis(
-    ...     df=df,
-    ...     metric_cols="total_flights",
-    ...     param_cols=[
-    ...         "country",
-    ...         #"day_of_week"
+    >>> group_labels = ["USA", None, "UK", None, None]
+    >>> labels = ["total flights", "", "", "Daily outgoing flights"]
+    >>> level_colours = get_palette("husl", 3)
+
+    Plot 1 / 5: 1 group * 1 level
+
+    >>> df_filtered = df.loc[
+    ...     df["country"].isin([groups[0]]) &
+    ...     df["day_of_week"].isin([levels[0]])
     ... ]
-    ... ).sort(
-    ...     metric_col="mean_total_flights",
-    ...     sort_order="desc"
+    >>> precis = Precis(
+    ...     df=df_filtered,
+    ...     metric_cols="total_flights", param_cols=["country"]
     ... )
-    >>> print(precis.precis.head())  # doctest: +ELLIPSIS
-                        country  ... hdi_97%_total_flights
-    4  United States of America  ...               16468.0
-    2                   Germany  ...                2597.0
-    3            United Kingdom  ...                1688.0
-    ...
 
     >>> fig = RidgePlot(
-    ...     disttype="kde",
-    ...     plot_hdi=True,
-    ...     plot_rug=False
+    ...     disttype="step", plot_hdi=True, plot_rug=False
+    ... ).plot(
+    ...     df=precis.precis, labels=labels
+    ... )
+
+    Plot 2 / 5: m groups * 1 level
+
+    >>> df_filtered = df.loc[
+    ...     df["country"].isin(groups) &
+    ...     df["day_of_week"].isin([levels[0]])
+    ... ]
+    >>> precis = Precis(
+    ...     df=df_filtered,
+    ...     metric_cols="total_flights", param_cols=["country"]
+    ... )
+
+    >>> fig = RidgePlot(
+    ...     disttype="kde", plot_hdi=False, plot_rug=True
+    ... ).plot(
+    ...     df=precis.precis,
+    ...     group_col="country", labels=labels, group_labels=group_labels
+    ... )
+
+    Plot 3 / 5: 1 groups * n levels
+
+    >>> df_filtered = df.loc[
+    ...     df["country"].isin([groups[0]]) &
+    ...     df["day_of_week"].isin(levels)
+    ... ]
+    >>> precis = Precis(
+    ...     df=df_filtered,
+    ...     metric_cols="total_flights", param_cols=["country", "day_of_week"]
+    ... )
+
+    >>> fig = RidgePlot(
+    ...     disttype="kde", plot_hdi=False, plot_rug=False
+    ... ).plot(
+    ...     df=precis.precis, level_col="day_of_week", labels=labels,
+    ...     level_colors=level_colours,
+    ...     # facet_out_levels=True
+    ... )
+
+    Create common precis
+
+    >>> df_filtered = df.loc[
+    ...     df["country"].isin(groups) &
+    ...     df["day_of_week"].isin(levels)
+    ... ]
+    >>> print(df_filtered.head())  # doctest: +ELLIPSIS
+        country        day  ...  total_flights  day_of_week
+    534  Canada 2020-01-01  ...         1175.0    Wednesday
+    536  Canada 2020-01-03  ...         1096.0       Friday
+    ...
+
+    >>> precis = Precis(
+    ...     df=df_filtered,
+    ...     metric_cols="total_flights",
+    ...     param_cols=["country", "day_of_week"]
+    ... ).sort(
+    ...     metric_col="mean_total_flights", sort_order="desc"
+    ... )
+    >>> with pd.option_context("display.max_columns", 3):
+    ...     print(precis.precis)  # doctest: +ELLIPSIS
+                         country  ... hdi_97%_total_flights
+    12  United States of America  ...               17347.0
+    14  United States of America  ...               15980.0
+    13  United States of America  ...               15119.0
+    ...
+
+    Plot 4 / 5: m groups * n levels, 1 pane
+
+    >>> fig = RidgePlot(
+    ...     disttype="kde", plot_hdi=True, plot_rug=False
     ... ).plot(
     ...     df=precis.precis,
     ...     group_col="country",
-    ...     #level_col="day_of_week",
-    ...     labels=["total flights", "", "", "Daily outgoing flights"],
-    ...     group_labels=["USA", None, "UK", None, None],
-    ...     level_colors=get_palette("husl", 7),
+    ...     level_col="day_of_week",
+    ...     labels=labels,
+    ...     group_labels=group_labels,
+    ...     level_colors=level_colours,
+    ...     facet_out_levels=False
+    ... )
+
+    Plot 5 / 5: m groups * n levels, n panes
+
+    >>> fig = RidgePlot(
+    ...     disttype="kde", plot_hdi=False, plot_rug=True
+    ... ).plot(
+    ...     df=precis.precis,
+    ...     group_col="country",
+    ...     level_col="day_of_week",
+    ...     labels=labels,
+    ...     group_labels=group_labels,
+    ...     level_colors=level_colours,
     ...     facet_out_levels=True
     ... )
-    >>> print(fig.df.head())  # doctest: +ELLIPSIS
-                        country  ... hdi_97%_total_flights
-    4  United States of America  ...               16468.0
-    ...
     """
     def __init__(
         self,
@@ -361,8 +438,7 @@ class RidgePlot(BasePlot):
             len(self.groups),
             len(self.levels) if facet_out_levels else 1,
             figsize=(figwidth, figheight),
-            sharex=True,
-            # sharey=True
+            sharex=True
         )
         axes = np.atleast_1d(axes)
         if axes.ndim == 1:
@@ -421,17 +497,6 @@ class RidgePlot(BasePlot):
                         legend=False,
                         # edgecolor="white"
                     )
-                    # ax.hist(
-                    #     level_values,
-                    #     bins=round((xmax - xmin) / (max(values) / 50)),
-                    #     color=self.level_colors[j],
-                    #     density=True,
-                    #     orientation="vertical",
-                    #     histtype="stepfilled",
-                    #     alpha=0.5,
-                    #     edgecolor="white",
-                    #     label=level_label,
-                    # )
                 if self.plot_rug:
                     sns.rugplot(
                         level_values,
@@ -480,27 +545,30 @@ class RidgePlot(BasePlot):
                         ax.set_yticklabels([])
 
                     # * Optional set axis tick label rounding
-                    # ax.set_xticks(xticks)
-                    ax.xaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+                    ax.xaxis.set_major_formatter(FormatStrFormatter('%.0f'))
+
+                    # * Optional set axis tick lab style
+                    # (numbers: commas; support dates; supports math/scaling)
+                    ax.xaxis.set_major_formatter(
+                        FuncFormatter(lambda x, _: f"{int(x):,}")
+                    )
 
                     # * Optional set lims / ticks (np.arange(min, first, max))
+                    xmin, xmax, xstep = 0, 30_000, 5000
+                    xticks = np.arange(
+                        xmin, xmax,
+                        xstep * (len(self.levels) if facet_out_levels else 1)
+                    )
+                    ax.set_xticks(ticks=xticks)
 
-                    # xmin, xmax = ax.get_xlim()
-                    # xticks = ax.get_xticks()
-                    # xmin = xticks[1]
-                    # xmax = xticks[-2]
-                    # offset = abs(xmax - xmin) / 10
-                    # ax.set_xlim(xticks[1] - offset, xticks[-2] + offset)
-                    # values = self.df.explode(data_col)[data_col]
-                    # xmin, xmax = min(values), max(values)
-                    # xticks = np.round(
-                    #     np.linspace(
-                    #         xmin - abs(xmax) / 2, xmax + abs(xmax) / 2, 7
-                    #     ), 0
-                    # )
-                    # x_min, x_max = ax.get_xlim()
-                    # padding = 0.1 * (x_max - x_min)
-                    # ax.set_xlim(x_min - padding, x_max + padding)
+                    # * Optional set tick rotation
+                    ax.tick_params(
+                        axis='x',
+                        rotation=0
+                        # rotation=(
+                        #     5 * len(self.levels) if facet_out_levels else 0
+                        # )
+                    )
 
                     # * Optional trim and offset
                     # sns.despine(
@@ -575,8 +643,8 @@ class RidgePlot(BasePlot):
         title  = self.labels[3] if self.labels[3] != "" else None
         fig.suptitle(title, y=.985, fontsize=12)
 
-        # fig.supylabel(ylabel)
-        # fig.supxlabel(xlabel)
+        fig.supylabel(ylabel)
+        fig.supxlabel(xlabel)
         # axes[len(self.groups) - 1, 0].set_xlabel(xlabel)
         # axes[0, 0].set_title(title, pad=20)
 
@@ -594,11 +662,11 @@ class RidgePlot(BasePlot):
 
 
 def main():
-    import doctest
-    doctest.testmod(verbose=True)
+    # import doctest
+    # doctest.testmod(verbose=True)
 
-    # from src.workflow import doctest_function
-    # doctest_function(DetrendAndDeseasonalize, globs=globals())
+    from src.workflow import doctest_function
+    doctest_function(RidgePlot, globs=globals())
 
     # -- One-off tests -------------------------------------------------------
 

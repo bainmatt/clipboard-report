@@ -4,10 +4,12 @@ Type validation of inputs against function type annotations.
 Notes
 -----
 Pydantic provides this functionality built-in. See:
-- validate_call decorator:
-  https://docs.pydantic.dev/latest/concepts/validation_decorator/
-- ValidationError error:
-  https://docs.pydantic.dev/latest/errors/validation_errors/
+
+    - validate_call decorator:
+      https://docs.pydantic.dev/latest/concepts/validation_decorator/
+
+    - ValidationError error:
+      https://docs.pydantic.dev/latest/errors/validation_errors/
 
 TODO: review and clean this up, tests to docstring
 """

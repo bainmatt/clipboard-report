@@ -715,7 +715,7 @@ if __name__ == "__main__":
         # display("grid_search_precis", globs=globals())
         pass
 
-    # main()
+    main()
 
     # exit()
 
