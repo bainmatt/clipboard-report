@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 from typing import Literal
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap
-from src.validate_typehints import validate_types
+# from src.validate_typehints import validate_types
 
 
 PaletteType = Literal[
@@ -82,7 +82,6 @@ def hex_to_rgb(hex_color: str) -> RGBType:
     return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
 
 
-@validate_types
 def rgb_to_hex(rgb: RGBType) -> str:
     """
     Convert an RGB color to HEX.
